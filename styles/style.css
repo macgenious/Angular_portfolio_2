@@ -1,0 +1,663 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #00ffff; /* Cyan */
+    --secondary-color: #ff00ff; /* Magenta */
+    --background-color: #0a0a23; /* Dark blue/purple */
+    --text-color: #e0e0e0;
+    --grid-color: rgba(0, 255, 255, 0.1);
+    --card-background: rgba(20, 20, 50, 0.6);
+    --neon-glow-cyan: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+    --neon-glow-magenta: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+    --link-hover-color: #00BFFF; /* Deep Sky Blue for hover */
+    --neon-glow-blue: 0 0 5px var(--link-hover-color), 0 0 10px var(--link-hover-color), 0 0 20px var(--link-hover-color), 0 0 40px var(--link-hover-color);
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative; /* For canvas positioning */
+}
+
+#particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Behind grid */
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1; /* Behind content, above canvas */
+    pointer-events: none;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 5%;
+    background: rgba(10, 10, 35, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    /* Color and text-shadow will be handled by child spans */
+}
+
+.logo-cyber {
+    color: var(--primary-color);
+    text-shadow: var(--neon-glow-cyan);
+}
+
+.logo-dev {
+    color: var(--secondary-color);
+    text-shadow: var(--neon-glow-magenta);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 2rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: var(--link-hover-color);
+    text-shadow: var(--neon-glow-blue);
+}
+
+main {
+    padding-top: 80px; /* Adjust based on header height */
+}
+
+section {
+    padding: 60px 5%;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+section h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+
+.neon-text-cyan {
+    color: var(--primary-color);
+    text-shadow: var(--neon-glow-cyan);
+}
+
+.neon-text-purple {
+    color: var(--secondary-color);
+    text-shadow: var(--neon-glow-magenta);
+}
+
+section h2 .neon-text-purple {
+    margin-right: 0.5ch; /* Space between words */
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: rgba(224, 224, 224, 0.7);
+    margin-bottom: 3rem;
+    max-width: 600px;
+}
+
+/* Contact Section Form Styles */
+#contact form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Or a suitable max-width */
+    margin-top: 2rem;
+}
+
+#contact form input[type="text"],
+#contact form input[type="email"],
+#contact form textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--card-background);
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+#contact form input[type="text"]::placeholder,
+#contact form input[type="email"]::placeholder,
+#contact form textarea::placeholder {
+    color: rgba(224, 224, 224, 0.5);
+}
+
+#contact form input[type="text"]:focus,
+#contact form input[type="email"]:focus,
+#contact form textarea:focus {
+    outline: none;
+    box-shadow: var(--neon-glow-cyan);
+}
+
+#contact form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+#contact form button.btn-primary {
+    /* Assuming btn-primary is already styled, 
+       but we can add specific alignment or width if needed here */
+    align-self: center; /* Or stretch if full width is desired */
+    margin-top: 1rem;
+    /* Add any specific styles for the send button if different from other .btn-primary */
+}
+
+
+/* Home Section */
+#home {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    text-align: left;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero-content .comment {
+    font-family: 'Courier New', Courier, monospace;
+    color: #888;
+    margin-bottom: 0.5rem;
+}
+
+.hero-content h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-content .tech-stack {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.hero-content .description {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.buttons button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px; /* Increased for a rounder look */
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: var(--neon-glow-cyan);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #00dede; /* Slightly lighter cyan for feedback */
+    box-shadow: 0 0 8px var(--primary-color), 0 0 15px var(--primary-color), 0 0 30px var(--primary-color), 0 0 60px var(--primary-color); /* Intensified glow */
+    transform: translateY(-2px); /* Subtle lift effect */
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: var(--neon-glow-cyan);
+}
+
+.hero-image .code-icon {
+    font-size: 10rem;
+    color: var(--primary-color);
+    text-shadow: var(--neon-glow-cyan);
+    animation: pulseCodeIcon 3s infinite ease-in-out;
+}
+
+@keyframes pulseCodeIcon {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* Skills Section Styling */
+#skills .skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1000px; /* Adjust as needed */
+    margin-top: 2rem;
+}
+
+#skills .proficiency-levels {
+    flex: 1;
+    background: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+#skills .skill-categories {
+    flex: 2;
+    background: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+#skills .category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+#skills .category-tabs button {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#skills .category-tabs button:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: var(--neon-glow-cyan);
+    transform: translateY(-2px);
+}
+
+#skills .category-tabs button.active {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: var(--neon-glow-cyan);
+    font-weight: bold;
+}
+
+/* Skill Items Styling */
+.skill-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    background-color: rgba(20, 20, 40, 0.4);
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.skill-item:hover {
+    background-color: rgba(30, 30, 60, 0.6);
+    transform: translateX(5px);
+}
+
+.skill-name {
+    flex-basis: 30%;
+    min-width: 120px;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-right: 1rem;
+}
+
+.proficiency-bar-container {
+    flex-grow: 1;
+    height: 20px; /* Increased height */
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px; /* Slightly larger radius */
+    overflow: hidden;
+    margin-right: 1rem;
+    position: relative;
+}
+
+@keyframes colorShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.proficiency-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary-color), var(--primary-color), var(--secondary-color), var(--primary-color));
+    background-size: 300% 300%;
+    border-radius: 8px; /* Match container radius */
+    width: 0; /* Start at 0 for animation */
+    transition: width 1.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    box-shadow: 0 0 8px var(--primary-color);
+    animation: colorShift 8s infinite ease-in-out;
+}
+
+.proficiency-text {
+    min-width: 40px;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+/* Contact Section */
+#contact form {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: rgba(224, 224, 224, 0.5);
+    border-top: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Skills Section Layout */
+.skills-layout-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start; /* Align panels to the top */
+    gap: 2rem;
+    width: 90%; /* Overall container width */
+    max-width: 1600px; /* Max width for large screens */
+    margin: 2rem auto 4rem auto; /* Centering and vertical margins */
+}
+
+.skills-panel {
+    flex: 1 1 45%; /* Allow panels to grow/shrink, base width 45% */
+    min-width: 350px; /* Minimum width before breaking layout */
+    max-width: 750px; /* Make panels wider */
+    background: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    max-height: 60vh; /* Make panels shorter (viewport height relative) */
+    display: flex; /* Use flex for internal layout (title + content area) */
+    flex-direction: column;
+}
+
+.skills-panel h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    text-shadow: var(--neon-glow-cyan);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    flex-shrink: 0; /* Prevent title from shrinking if panel content is large */
+}
+
+.skills-panel-content {
+    overflow-y: auto; /* Enable vertical scroll for content within the panel */
+    flex-grow: 1; /* Allow content area to take up available space in the panel */
+    padding-right: 10px; /* Space for scrollbar to avoid overlapping content */
+    margin-right: -10px; /* Offset padding for a visually full-width content feel before scrollbar */
+}
+
+/* Custom scrollbar for the content area inside panels */
+.skills-panel-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.skills-panel-content::-webkit-scrollbar-track {
+    background: rgba(20, 20, 50, 0.3); /* Slightly transparent dark track */
+    border-radius: 10px;
+}
+
+.skills-panel-content::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.skills-panel-content::-webkit-scrollbar-thumb:hover {
+    background: var(--link-hover-color);
+}
+
+/* Proficiency Levels Section */
+.proficiency-levels {
+    width: 100%;
+    /* Removed margin-bottom as it's handled by skills-container or specific items */
+}
+
+/* Ensure h3 within proficiency-levels is styled, it might be already covered by #skills .proficiency-levels h3 */
+#skills .proficiency-levels h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem; 
+    color: var(--primary-color);
+    text-shadow: var(--neon-glow-cyan);
+    margin-bottom: 1.5rem; 
+    text-align: center; 
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem; 
+    background-color: rgba(20, 20, 40, 0.4); /* Slightly more opaque for better readability */
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    border-left: 3px solid var(--primary-color);
+    transition: background-color 0.3s ease;
+}
+
+.skill-item:hover {
+    background-color: rgba(30, 30, 60, 0.6);
+}
+
+.skill-name {
+    flex-basis: 30%; 
+    min-width: 120px; 
+    font-weight: 500;
+    color: var(--text-color);
+    margin-right: 1rem;
+}
+
+.proficiency-bar-container {
+    flex-grow: 1;
+    height: 20px; 
+    background-color: rgba(0, 0, 0, 0.5); /* Darker track for better contrast */
+    border-radius: 8px;
+    overflow: hidden; 
+    margin-right: 1rem;
+    position: relative; /* For potential future text overlay inside bar */
+}
+
+.proficiency-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary-color), var(--primary-color), var(--secondary-color), var(--primary-color));
+    background-size: 300% 300%;
+    border-radius: 8px;
+    transition: width 1.5s cubic-bezier(0.25, 0.1, 0.25, 1); /* Smoother animation */
+    box-shadow: 0 0 8px var(--primary-color);
+    animation: colorShift 8s infinite ease-in-out;
+}
+
+.proficiency-text {
+    min-width: 40px; 
+    font-weight: 600; /* Slightly bolder */
+    color: var(--primary-color);
+    text-align: right;
+    font-size: 0.9em;
+}
+
+/* Responsive adjustments for proficiency items specifically */
+@media (max-width: 768px) {
+    /* .skills-container flex-direction is already handled */
+    /* .proficiency-levels width is already handled */
+
+    .skill-item {
+        flex-direction: column; 
+        align-items: flex-start;
+        padding: 0.5rem 0.75rem; /* Adjust padding for smaller screens */
+    }
+    .skill-name {
+        margin-bottom: 0.5rem;
+        flex-basis: auto; /* Allow full width */
+        width: 100%;
+    }
+    .proficiency-bar-container {
+        width: 100%; 
+        margin-bottom: 0.5rem;
+        height: 18px; /* Slightly smaller bar */
+    }
+    .proficiency-text {
+        align-self: flex-end;
+        font-size: 0.85em;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem 2%;
+    }
+    nav ul {
+        display: none; /* Basic mobile menu placeholder - implement JS toggle later */
+    }
+    .logo {
+        font-size: 1.5rem;
+    }
+    #home {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    .hero-image .code-icon {
+        font-size: 6rem;
+        margin-top: 2rem;
+    }
+    .skills-container {
+        flex-direction: column;
+    }
+    section h2 {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot Assistant - CyberDev Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../styles/cursor.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><span class="logo-cyber">CYBER</span><span class="logo-dev">DEV</span></div>
+            <ul>
+                <li><a href="../index.html#home">Home</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="project-details">
+            <h1>AI Chatbot Assistant</h1>
+            <div class="project-banner">
+                <img src="../imgs/Gemini_language_model_logo.png" alt="AI Project Banner">
+            </div>
+            
+            <div class="project-info">
+                <div class="project-description">
+                    <h2>Project Overview</h2>
+                    <p>The AI Chatbot Assistant is an advanced conversational agent built using state-of-the-art natural language processing techniques and large language models. This project demonstrates my expertise in AI development, prompt engineering, and creating practical applications with machine learning.</p>
+                    
+                    <h2>Key Features</h2>
+                    <ul>
+                        <li>Natural language understanding and generation</li>
+                        <li>Context-aware conversations with memory</li>
+                        <li>Integration with external APIs for real-time data</li>
+                        <li>Multi-modal capabilities (text, image, voice)</li>
+                        <li>Customizable personality and knowledge base</li>
+                        <li>Deployment across web, mobile, and messaging platforms</li>
+                    </ul>
+                    
+                    <h2>Technologies Used</h2>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Python</span>
+                        <span class="tech-badge">TensorFlow</span>
+                        <span class="tech-badge">Hugging Face</span>
+                        <span class="tech-badge">Google Gemini</span>
+                        <span class="tech-badge">FastAPI</span>
+                        <span class="tech-badge">React</span>
+                        <span class="tech-badge">WebSockets</span>
+                    </div>
+                </div>
+                
+                <div class="project-code">
+                    <h2>Sample Code</h2>
+                    <pre><code class="language-python">
+# AI Chatbot implementation with context management
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from pydantic import BaseModel
+import google.generativeai as genai
+import os
+from typing import List, Dict
+
+# Initialize FastAPI app
+app = FastAPI()
+
+# Configure Gemini API
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+model = genai.GenerativeModel('gemini-pro')
+
+# Chat session management
+class ChatSession:
+    def __init__(self, session_id: str):
+        self.session_id = session_id
+        self.chat = model.start_chat(history=[])
+        self.context = {}
+    
+    async def send_message(self, message: str) -> str:
+        # Enhance message with context if available
+        enhanced_message = self._add_context_to_message(message)
+        
+        # Get response from model
+        response = await self.chat.send_message_async(enhanced_message)
+        
+        # Extract and store any new context
+        self._update_context(message, response.text)
+        
+        return response.text
+    
+    def _add_context_to_message(self, message: str) -> str:
+        if not self.context:
+            return message
+            
+        context_str = "\n\nContext:\n" + "\n".join(
+            [f"{k}: {v}" for k, v in self.context.items()]
+        )
+        return message + context_str
+    
+    def _update_context(self, message: str, response: str):
+        # Simple context extraction logic
+        # In a real app, this would be more sophisticated
+        if "my name is" in message.lower():
+            name = message.lower().split("my name is")[1].strip()
+            self.context["user_name"] = name
+
+# Active chat sessions
+active_sessions: Dict[str, ChatSession] = {}
+
+# WebSocket endpoint for real-time chat
+@app.websocket("/ws/{session_id}")
+async def websocket_endpoint(websocket: WebSocket, session_id: str):
+    await websocket.accept()
+    
+    # Create or retrieve session
+    if session_id not in active_sessions:
+        active_sessions[session_id] = ChatSession(session_id)
+    
+    session = active_sessions[session_id]
+    
+    try:
+        while True:
+            # Receive message from client
+            message = await websocket.receive_text()
+            
+            # Process message and get response
+            response = await session.send_message(message)
+            
+            # Send response back to client
+            await websocket.send_text(response)
+    except WebSocketDisconnect:
+        # Clean up on disconnect
+        if session_id in active_sessions:
+            del active_sessions[session_id]
+                    </code></pre>
+                </div>
+            </div>
+            
+            <div class="project-demo">
+                <h2>Try the Chatbot</h2>
+                <div class="chatbot-demo">
+                    <div class="chat-container">
+                        <div class="chat-messages">
+                            <div class="message bot">
+                                <div class="message-content">Hello! I'm your AI assistant. How can I help you today?</div>
+                            </div>
+                            <!-- Chat messages will appear here -->
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="user-input" placeholder="Type your message...">
+                            <button id="send-button">Send</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo-buttons">
+                    <a href="#" class="btn-primary">Full Demo</a>
+                    <a href="#" class="btn-secondary">GitHub Repository</a>
+                </div>
+            </div>
+
+            
+            <div class="contact-section">
+                <div class="contact-buttons">
+                    <a href="../index.html#projects" class="btn-secondary">View More Projects</a>
+                </div>
+                
+                <div class="spacer"></div> <!-- Extra space at the bottom -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Alejandro's Portfolio. All rights reserved.</p>
+        <p><a href="../index.html">Back to Main Portfolio</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="../js/cursor.js"></script>
+</body>
+</html>

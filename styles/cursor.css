@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #00ffff; /* Cyan */
+    --secondary-color: #ff00ff; /* Magenta */
+    --background-color: #0a0a23; /* Dark blue/purple */
+    --text-color: #e0e0e0;
+    --grid-color: rgba(0, 255, 255, 0.1);
+    --card-background: rgba(20, 20, 50, 0.6);
+    --neon-glow-cyan: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+    --neon-glow-magenta: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+    --link-hover-color: #00BFFF; /* Deep Sky Blue for hover */
+    --neon-glow-blue: 0 0 5px var(--link-hover-color), 0 0 10px var(--link-hover-color), 0 0 20px var(--link-hover-color), 0 0 40px var(--link-hover-color);
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.cursor-dot {
+    pointer-events: none;
+    position: fixed;
+    width: 27px;
+    height: 27px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 255, 255, 0.3);
+    border-radius: 50%;
+    filter: blur(5px);
+    box-shadow: 0 0 15px var(--primary-color);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    z-index: 999;
+}

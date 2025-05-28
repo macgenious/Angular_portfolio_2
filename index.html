@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberDev Portfolio</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/loading.css"> <!-- Added loading screen CSS -->
+    <link rel="stylesheet" href="styles/cursor.css"> <!-- Added cursor CSS -->
+    <link rel="stylesheet" href="styles/projects.css"> <!-- Added projects CSS -->
+</head>
+<body>
+    <!-- Loading Screen Start -->
+    <div id="loading-screen">
+        <div class="loading-text">Welcome to my portfolio</div>
+        <div class="loading-bar"></div>
+            <div class="loading-bar-progress"></div>
+    </div>
+    <!-- Loading Screen End -->
+    <canvas id="particle-canvas"></canvas>
+    <div class="cursor-dot"></div>
+
+    <header>
+        <nav>
+            <div class="logo"><span class="logo-cyber">CYBER</span><span class="logo-dev">DEV</span></div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <div class="hero-content">
+                <p class="comment">// Hello World</p>
+                <h1>Software Engineer<br>Cybernetic Problem<br>Solver</h1>
+                <p class="tech-stack">Python | Java | Web Development | Hardware | AI Tools</p>
+                <p class="description">Crafting cutting-edge solutions with a fusion of code and creativity, building tomorrow's technology with today's tools.</p>
+                <div class="buttons">
+                <button class="btn-primary">Read CV &rarr;</button>
+            </div>
+            </div>
+            <div class="hero-image">
+                <div class="code-icon">&lt;/&gt;</div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>SKILLMATRIX</h2>
+            <p class="section-subtitle">A comprehensive overview of my technical abilities and proficiency levels.</p>
+            <div class="skills-container">
+                <div class="skill-categories">
+                    <h3>Skill Categories</h3>
+                    <div class="category-tabs">
+                        <button class="category-btn active" data-category="Languages">Languages</button>
+                        <button class="category-btn" data-category="Frameworks">Frameworks</button>
+                        <button class="category-btn" data-category="Tools">Tools</button>
+                        <button class="category-btn" data-category="AI & ML">AI & ML</button>
+                        <button class="category-btn" data-category="Hardware">Hardware</button>
+                    </div>
+                </div>
+                <div class="proficiency-levels">
+                    <h3>Proficiency Levels</h3>
+                    <div class="skill-items-container">
+                        <!-- Skill items will be dynamically populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>PROJECTSHOWCASE</h2>
+            <p class="section-subtitle">A collection of my finest work, showcasing technical skills and creative solutions.</p>
+            <div class="project-filters">
+                <button>Python</button>
+                <button>Java</button>
+                <button>JavaScript</button>
+                <button>Hardware</button>
+                <button>AI</button>
+            </div>
+            <div class="project-carousel-container">
+                <div class="project-carousel-track">
+                    <div class="project-card" data-category="Python">
+                        <div class="project-card-image" style="background-image: url('imgs/python.png');">
+                            <!-- Image via CSS background -->
+                        </div>
+                        <div class="project-card-title"><h3>Pokedex python API</h3></div>
+                    </div>
+                    <div class="project-card" data-category="Java">
+                        <div class="project-card-image" style="background-image: url('imgs/java.png');">
+                            <!-- Image via CSS background -->
+                        </div>
+                        <div class="project-card-title"><h3>Java Game</h3></div>
+                    </div>
+                    <div class="project-card" data-category="JavaScript">
+                        <div class="project-card-image" style="background-image: url('imgs/javascript.png');">
+                            <!-- Image via CSS background -->
+                        </div>
+                        <div class="project-card-title"><h3>Personality book test</h3></div>
+                    </div>
+                    <div class="project-card" data-category="Hardware">
+                        <div class="project-card-image" style="background-image: url('imgs/arduino.png');">
+                            <!-- Image via CSS background -->
+                        </div>
+                        <div class="project-card-title"><h3>Arduino car project</h3></div>
+                    </div>
+                    <div class="project-card" data-category="AI">
+                        <div class="project-card-image" style="background-image: url('imgs/gemini.png');">
+                            <!-- Image via CSS background -->
+                        </div>
+                        <div class="project-card-title"><h3>AI Chatbot Assistant</h3></div>
+                    </div>
+                    <!-- Add more project cards here with appropriate data-category -->
+                </div>
+            </div>
+            <div class="no-projects-message" style="display: none;">No projects found for this category.</div>
+        </section>
+
+
+    </main>
+
+    <footer>
+        <p>Edit with <a href="#">Lovable</a></p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/cursor.js"></script>
+    <script src="js/loading.js"></script> <!-- Added loading screen JS -->
+    <script src="js/projects.js"></script> <!-- Added projects carousel JS -->
+    <script src="js/skills.js"></script> <!-- Added skills matrix JS -->
+</body>
+</html>

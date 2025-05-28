@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Weather Station - CyberDev Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../styles/cursor.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><span class="logo-cyber">CYBER</span><span class="logo-dev">DEV</span></div>
+            <ul>
+                <li><a href="../index.html#home">Home</a></li>
+                <li><a href="../index.html#skills">Skills</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="project-details">
+            <h1>IoT Weather Station</h1>
+            <div class="project-banner">
+                <img src="../imgs/arduino_car.webp" alt="Arduino Project Banner">
+            </div>
+            
+            <div class="project-info">
+                <div class="project-description">
+                    <h2>Project Overview</h2>
+                    <p>The IoT Weather Station is a sophisticated hardware project that combines Arduino microcontrollers, various environmental sensors, and cloud connectivity to create a comprehensive weather monitoring system. This project demonstrates hardware integration, sensor calibration, and IoT data processing.</p>
+                    
+                    <h2>Key Features</h2>
+                    <ul>
+                        <li>Real-time temperature, humidity, pressure, and air quality monitoring</li>
+                        <li>Solar-powered with battery backup for continuous operation</li>
+                        <li>WiFi connectivity for cloud data transmission</li>
+                        <li>Web dashboard for data visualization</li>
+                        <li>Weather prediction algorithms</li>
+                        <li>Mobile app notifications for extreme weather conditions</li>
+                    </ul>
+                    
+                    <h2>Technologies Used</h2>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Arduino</span>
+                        <span class="tech-badge">ESP8266</span>
+                        <span class="tech-badge">C/C++</span>
+                        <span class="tech-badge">IoT</span>
+                        <span class="tech-badge">MQTT</span>
+                        <span class="tech-badge">Node.js</span>
+                        <span class="tech-badge">Solar Power</span>
+                    </div>
+                </div>
+                
+                <div class="project-code">
+                    <h2>Sample Code</h2>
+                    <pre><code class="language-cpp">
+#include <Servo.h>
+// Define servo objects
+Servo steeringServo;
+Servo throttleServo;
+
+// Pins connected to the receiver's channels
+const int STEERING_PIN = 2;  // Channel 1 (Steering)
+const int THROTTLE_PIN = 3;  // Channel 2 (Throttle)
+
+// Variables to store pulse width
+int steeringValue = 0;
+int throttleValue = 0;
+
+void setup() {
+  steeringServo.attach(9);   // Steering servo on pin 9
+  throttleServo.attach(10);  // Throttle servo on pin 10
+  
+  // Set receiver pins as inputs
+  pinMode(STEERING_PIN, INPUT);
+  pinMode(THROTTLE_PIN, INPUT);
+}
+
+void loop() {
+  // Read PWM signals from the receiver
+  steeringValue = pulseIn(STEERING_PIN, HIGH);
+  throttleValue = pulseIn(THROTTLE_PIN, HIGH);
+
+  // Map values to servo range (adjust as needed)
+  steeringValue = map(steeringValue, 1000, 2000, 0, 180);  // 1000-2000μs → 0-180°
+  throttleValue = map(throttleValue, 1000, 2000, 0, 180);  // Same for throttle
+
+  // Apply values to servos
+  steeringServo.write(steeringValue);
+  throttleServo.write(throttleValue);
+
+  delay(20);  // Small delay for stability
+}
+                    </code></pre>
+                </div>
+            </div>
+            
+            <div class="contact-section">
+                 <h2>Get In Touch</h2>
+                 <p>Interested in collaborating on this project or have questions about the implementation? Feel free to reach out!</p>
+                 
+                 <div class="contact-buttons">
+                     <a href="../index.html#projects" class="btn-secondary">View More Projects</a>
+                 </div>
+                 
+                 <div class="spacer"></div> <!-- Extra space at the bottom -->
+             </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 CyberDev Portfolio. All rights reserved.</p>
+        <p><a href="../index.html">Back to Main Portfolio</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="../js/cursor.js"></script>
+</body>
+</html>

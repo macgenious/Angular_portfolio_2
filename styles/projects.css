@@ -1,0 +1,507 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #00ffff; /* Cyan */
+    --secondary-color: #ff00ff; /* Magenta */
+    --background-color: #0a0a23; /* Dark blue/purple */
+    --text-color: #e0e0e0;
+    --grid-color: rgba(0, 255, 255, 0.1);
+    --card-background: rgba(20, 20, 50, 0.6);
+    --neon-glow-cyan: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+    --neon-glow-magenta: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+    --link-hover-color: #00BFFF; /* Deep Sky Blue for hover */
+    --neon-glow-blue: 0 0 5px var(--link-hover-color), 0 0 10px var(--link-hover-color), 0 0 20px var(--link-hover-color), 0 0 40px var(--link-hover-color);
+}
+
+/* Project Filter Buttons */
+.project-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    padding: 0.5rem;
+}
+
+.project-filters button {
+    background-color: rgba(10, 10, 35, 0.7);
+    border: 2px solid var(--primary-color-transparent);
+    color: var(--text-color);
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Add a cute bubble effect behind buttons */
+.project-filters button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, var(--primary-color-transparent) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.project-filters button:hover::before,
+.project-filters button.active::before {
+    width: 150px;
+    height: 150px;
+}
+
+.project-filters button:hover {
+    background-color: rgba(20, 20, 60, 0.9);
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 15px var(--primary-color), 0 0 5px var(--secondary-color);
+    transform: translateY(-3px) scale(1.05);
+    text-shadow: 0 0 5px var(--secondary-color);
+}
+
+/* Add a cute animation when button becomes active */
+@keyframes buttonPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1.05); }
+}
+
+
+/* Projects Section Styling */
+#projects .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Projects Section - Carousel Styling */
+.project-carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 1.5rem 0;
+    perspective: 1000px; /* 3D perspective for the carousel */
+    transform-style: preserve-3d;
+}
+
+.project-carousel-track {
+    display: flex;
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-style: preserve-3d; /* Preserve 3D for child elements */
+    padding: 1rem 0; /* Add padding for shadow space */
+    /* For infinite animation, we need to ensure smooth transitions */
+    animation-timing-function: linear;
+    will-change: transform; /* Optimize for animation performance */
+}
+
+/* Add specific styling for cloned cards */
+.carousel-clone {
+    opacity: 0.9; /* Slightly transparent to differentiate */
+}
+
+/* Enhance the floating animation for infinite carousel */
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotateZ(0deg) scale(1); }
+    25% { transform: translateY(-8px) rotateZ(1deg) scale(1.02); }
+    75% { transform: translateY(8px) rotateZ(-1deg) scale(0.98); }
+}
+.project-card {
+    min-width: 300px; /* Fixed width for each card */
+    height: 300px; /* Fixed height for square cards */
+    margin-right: 2.5rem; /* Increased space between cards for 3D effect */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 10px var(--primary-color-transparent);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-color: var(--card-bg-color);
+    border: 2px solid var(--primary-color-transparent);
+    transform-style: preserve-3d; /* Maintain 3D space */
+    position: relative;
+    /* Subtle floating animation */
+    animation: float 6s ease-in-out infinite;
+    /* Stagger animation for each card */
+    animation-delay: calc(var(--card-index, 0) * 0.5s);
+}
+
+/* Floating animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotateZ(0deg); }
+    25% { transform: translateY(-5px) rotateZ(0.5deg); }
+    75% { transform: translateY(5px) rotateZ(-0.5deg); }
+}
+
+.project-card:hover {
+    transform: translateY(-15px) scale(1.05) translateZ(30px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-color);
+    border-color: var(--secondary-color);
+    /* Glow effect on hover */
+    filter: drop-shadow(0 0 8px var(--primary-color-transparent));
+    z-index: 10; /* Bring hovered card to front */
+}
+
+/* Add sparkle effect to cards */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    pointer-events: none; /* Don't interfere with hover */
+    z-index: 2;
+}
+
+.project-card:hover::before {
+    opacity: 0.2;
+    transform: scale(1);
+    animation: sparkle 1.5s infinite alternate;
+}
+
+@keyframes sparkle {
+    0% { opacity: 0.1; transform: scale(0.8); }
+    100% { opacity: 0.3; transform: scale(1.2); }
+}
+
+.project-card-image {
+    /* Ensure img tags are hidden if present, as we use background-image */
+    img {
+        display: none;
+    }
+    height: 75%; /* Adjust based on square card design */
+    background-size: cover;
+    background-position: center;
+    border-bottom: 2px solid var(--primary-color);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+/* Image zoom effect on hover */
+.project-card:hover .project-card-image {
+    background-position: center 45%; /* Subtle shift on hover */
+    transform: scale(1.05);
+    border-bottom-color: var(--secondary-color);
+}
+
+/* Add floating particles to card images */
+.project-card-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, var(--primary-color) 1px, transparent 1px),
+        radial-gradient(circle, var(--secondary-color) 1px, transparent 1px);
+    background-size: 20px 20px, 30px 30px;
+    background-position: 0 0, 10px 10px;
+    opacity: 0.1;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    animation: floatingParticles 20s linear infinite;
+}
+
+@keyframes floatingParticles {
+    0% { background-position: 0 0, 10px 10px; }
+    100% { background-position: 100px 100px, 110px 110px; }
+}
+
+.project-card:hover .project-card-image::after {
+    opacity: 0.3;
+    animation-duration: 10s; /* Faster animation on hover */
+}
+
+.project-card-title {
+    height: 25%; /* Adjust based on square card design */
+    background-color: rgba(10, 10, 35, 0.9); /* More opaque background */
+    backdrop-filter: blur(8px);
+    color: var(--text-color);
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    transform: translateZ(10px); /* Slight 3D effect */
+}
+
+.project-card:hover .project-card-title {
+    background-color: rgba(20, 20, 60, 0.95);
+    height: 28%; /* Slightly expand on hover */
+}
+
+.project-card-title h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.project-card:hover .project-card-title h3 {
+    transform: scale(1.1);
+    text-shadow: var(--neon-glow-cyan);
+}
+
+/* No projects message styling */
+.no-projects-message {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--primary-color);
+    background-color: rgba(10, 10, 35, 0.7);
+    border-radius: 15px;
+    border: 2px dashed var(--primary-color-transparent);
+    margin: 2rem auto;
+    max-width: 80%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add cute animated elements to the no projects message */
+.no-projects-message::before,
+.no-projects-message::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color-transparent);
+    opacity: 0.5;
+    animation: floatBubble 8s infinite ease-in-out;
+}
+
+.no-projects-message::before {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.no-projects-message::after {
+    bottom: 20%;
+    right: 10%;
+    animation-delay: 4s;
+}
+
+@keyframes floatBubble {
+    0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+    25% { transform: translate(20px, -15px); opacity: 0.7; }
+    50% { transform: translate(40px, 0); opacity: 0.5; }
+    75% { transform: translate(20px, 15px); opacity: 0.7; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .project-card {
+        min-width: 280px;
+        height: 280px;
+        margin-right: 2rem;
+    }
+    
+    .project-filters {
+        gap: 0.8rem;
+    }
+    
+    .project-filters button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-card {
+        min-width: 240px;
+        height: 240px;
+        margin-right: 1.5rem;
+    }
+
+    .project-card-title h3 {
+        font-size: 0.9rem;
+    }
+    
+    .project-carousel-container {
+        padding: 1rem 0;
+    }
+    
+    /* Adjust 3D effects for mobile */
+    .project-card:hover {
+        transform: translateY(-10px) scale(1.03) translateZ(20px);
+    }
+    
+    /* Reduce animation intensity on mobile for better performance */
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+    }
+}
+
+@media (max-width: 576px) {
+    .project-card {
+        min-width: 220px;
+        height: 220px;
+        margin-right: 1rem;
+    }
+    
+    .project-filters {
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .project-filters button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        border-width: 1px;
+    }
+    
+    .project-card-title h3 {
+        font-size: 0.8rem;
+    }
+    
+    /* Further reduce 3D effects on small screens */
+    .project-carousel-container {
+        perspective: 800px;
+    }
+}
+
+/* Keyframe animations for the carousel */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+    50% { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); }
+    100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+}
+
+/* Enhanced no-projects message with floating bubbles */
+/* Fix for duplicate sections and syntax errors */
+.no-projects-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    margin: 2rem auto;
+    max-width: 80%;
+    position: relative;
+    overflow: hidden;
+    animation: bounce 2s ease infinite;
+    animation-delay: 4s;
+}
+
+@keyframes floatBubble {
+    0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+    25% { transform: translate(20px, -15px); opacity: 0.7; }
+    50% { transform: translate(40px, 0); opacity: 0.5; }
+    75% { transform: translate(20px, 15px); opacity: 0.7; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .project-card {
+        min-width: 280px;
+        height: 280px;
+        margin-right: 2rem;
+    }
+    
+    .project-filters {
+        gap: 0.8rem;
+    }
+    
+    .project-filters button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-card {
+        min-width: 240px;
+        height: 240px;
+        margin-right: 1.5rem;
+    }
+
+    .project-card-title h3 {
+        font-size: 0.9rem;
+    }
+    
+    .project-carousel-container {
+        padding: 1rem 0;
+    }
+    
+    /* Adjust 3D effects for mobile */
+    .project-card:hover {
+        transform: translateY(-10px) scale(1.03) translateZ(20px);
+    }
+    
+    /* Reduce animation intensity on mobile for better performance */
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+    }
+}
+
+@media (max-width: 576px) {
+    .project-card {
+        min-width: 220px;
+        height: 220px;
+        margin-right: 1rem;
+    }
+    
+    .project-filters {
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .project-filters button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        border-width: 1px;
+    }
+    
+    .project-card-title h3 {
+        font-size: 0.8rem;
+    }
+    
+    /* Further reduce 3D effects on small screens */
+    .project-carousel-container {
+        perspective: 800px;
+    }
+}
