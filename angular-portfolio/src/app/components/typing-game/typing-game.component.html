@@ -1,0 +1,56 @@
+<section class="typing-game">
+  <header class="game-header" *ngIf="!embedded">
+    <button class="back-btn" (click)="back()">← Back</button>
+    <h2>Typing Improvement Game</h2>
+  </header>
+
+  <div class="controls">
+    <label>
+      Difficulty
+      <select [(ngModel)]="difficulty" [disabled]="running">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </label>
+    <button class="primary" (click)="start()" [disabled]="running">Start</button>
+    <button (click)="finish()" [disabled]="!running">Finish</button>
+    <button (click)="reset()">Reset</button>
+  </div>
+
+  <div class="snippet" [class.active]="running">
+    <p>{{ snippet || 'Press Start to begin' }}</p>
+  </div>
+
+  <div class="input-area" [class.shake]="running && typed.length && typed[typed.length-1] !== snippet[typed.length-1]">
+    <textarea
+      rows="3"
+      placeholder="Type here..."
+      [value]="typed"
+      (input)="onInputChange($any($event.target)?.value ?? '')"
+      [disabled]="!running"
+    ></textarea>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="label">Time</div>
+      <div class="value">{{ timeLeft }}s</div>
+    </div>
+    <div class="stat">
+      <div class="label">WPM</div>
+      <div class="value highlight">{{ wpm }}</div>
+    </div>
+    <div class="stat">
+      <div class="label">Accuracy</div>
+      <div class="value" [class.good]="accuracy >= 95" [class.warn]="accuracy < 95 && accuracy >= 80" [class.bad]="accuracy < 80">{{ accuracy }}%</div>
+    </div>
+  </div>
+
+  <div class="high-scores" *ngIf="highScores.length">
+    <h3>High Scores</h3>
+    <ul>
+      <li *ngFor="let hs of highScores">{{ hs.difficulty | titlecase }} • {{ hs.wpm }} WPM • {{ hs.accuracy }}%</li>
+    </ul>
+  </div>
+</section>

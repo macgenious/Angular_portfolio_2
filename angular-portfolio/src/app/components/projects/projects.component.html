@@ -1,5 +1,5 @@
 <section id="projects" class="projects-section">
-  <div class="container">
+  <div class="container" *ngIf="!showTypingGame; else typingGameView">
     <h2>PROJECTSHOWCASE</h2>
     <p class="section-subtitle">A collection of my finest work, showcasing technical skills and creative solutions.</p>
     
@@ -22,7 +22,10 @@
           [style.opacity]="getCardOpacity(i)"
           [style.zIndex]="getCardZIndex(i)"
           (click)="onProjectClick(project)">
-          <div class="project-card-image" [style.backgroundImage]="'url(' + project.imageUrl + ')'"></div>
+          <div class="project-card-image" [style.backgroundImage]="'url(' + project.imageUrl + ')'">
+            <img [src]="project.imageUrl" alt="" loading="lazy" decoding="async" />
+            <div class="overlay">{{ project.category }}</div>
+          </div>
           <div class="project-card-title">
             <h3>{{ project.title }}</h3>
           </div>
@@ -34,4 +37,11 @@
       No projects found for this category.
     </div>
   </div>
+
+  <ng-template #typingGameView>
+    <div class="game-wrapper">
+      <button class="game-back" (click)="closeTypingGame()">← Back to Projects</button>
+      <app-typing-game [embedded]="true"></app-typing-game>
+    </div>
+  </ng-template>
 </section>

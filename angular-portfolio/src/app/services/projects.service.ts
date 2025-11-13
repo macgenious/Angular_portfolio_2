@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Project, ProjectFilter } from '../models/project.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -41,13 +42,20 @@ export class ProjectsService {
       category: 'AI',
       imageUrl: '/imgs/gemini.png',
       projectPath: 'deepseek_api'
+    },
+    {
+      id: '6',
+      title: 'Typing Improvement Game',
+      category: 'JavaScript',
+      imageUrl: '/imgs/typing-game.svg',
+      projectPath: '/typing-game'
     }
   ];
 
   private filteredProjectsSubject = new BehaviorSubject<Project[]>(this.projects);
   private activeFilterSubject = new BehaviorSubject<string>('All');
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   getAllProjects(): Observable<Project[]> {
     return this.filteredProjectsSubject.asObservable();
@@ -73,13 +81,16 @@ export class ProjectsService {
   }
 
   navigateToProject(project: Project): void {
-    if (project.projectPath) {
-      if (project.projectPath.startsWith('http')) {
-        window.open(project.projectPath, '_blank');
-      } else {
-        // Navigate to local project
-        window.location.href = `${project.projectPath}/index.html`;
-      }
+    const path = project.projectPath;
+    if (!path) return;
+    if (path.startsWith('http')) {
+      window.open(path, '_blank');
+      return;
     }
+    if (path.startsWith('/')) {
+      this.router.navigateByUrl(path);
+      return;
+    }
+    window.location.href = `${path}/index.html`;
   }
 }
