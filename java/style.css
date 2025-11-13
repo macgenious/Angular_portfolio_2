@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+/* Fonts loaded via HTML for performance */
 
 :root {
     --primary-color: #00ffff; /* Cyan */
@@ -27,9 +27,7 @@ body {
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
-    background-image: linear-gradient(rgba(10, 10, 35, 0.9), rgba(10, 10, 35, 0.9)), url('../images/grid-bg.png');
-    background-size: cover;
-    background-position: center;
+    background-image: radial-gradient(ellipse at top, rgba(10,10,35,0.9), rgba(10,10,35,0.95));
     background-attachment: fixed;
 }
 
@@ -84,6 +82,10 @@ nav a {
     transition: all 0.3s ease;
     position: relative;
     padding: 0.5rem 0;
+}
+a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
 }
 
 nav a::after {
@@ -399,6 +401,21 @@ footer a {
 footer a:hover {
     color: var(--secondary-color);
     text-shadow: 0 0 5px var(--secondary-color);
+}
+
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: -999px;
+    background: var(--background-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary-color);
+}
+.skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+    z-index: 1000;
 }
 
 /* Animations */

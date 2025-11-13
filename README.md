@@ -69,3 +69,11 @@ A modern, vanilla JavaScript portfolio showcasing practical projects across Pyth
 - Add Contact/Reach‑out section
 - Finalize loading screen assets and animations
 - Add project write‑ups and code links per card
+
+**Frontend Enhancements (Nov 2025)**
+- Unified theming and accessibility across `arduino/`, `deepseek_api/`, `java/`, `pokedex`
+- Moved Google Fonts from CSS `@import` to HTML with `preconnect` for faster rendering
+- Added skip‑to‑content links and focus styles; improved semantic nav with `aria-label`
+- Optimized backgrounds (removed missing image references), added `prefers-reduced-motion`
+- Lazy‑loaded banner images with `loading="lazy"` and `decoding="async"`
+- Fixed asset paths and script tag mismatches (`script.js` → `main.js`, cursor.css path)
