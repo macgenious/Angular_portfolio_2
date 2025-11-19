@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
     <section id="home">
         <div class="hero-content">
             <p class="comment">// Hello World</p>
-            <h1>Software Engineer<br>Cybernetic Problem<br>Solver</h1>
+            <h1>Software<br>Engineer<br>Cybernetic<br>Problem<br>Solver</h1>
             <p class="tech-stack">Python | Java | Web Development | Hardware | AI Tools</p>
             <p class="description">Crafting cutting-edge solutions with a fusion of code and creativity, building tomorrow's technology with today's tools.</p>
             <div class="buttons">
@@ -44,7 +44,7 @@ import { CommonModule } from '@angular/common';
 
     .hero-content h1 {
         font-family: 'Orbitron', sans-serif;
-        font-size: 3.5rem;
+        font-size: 4rem;
         line-height: 1.2;
         margin-bottom: 1rem;
         background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));

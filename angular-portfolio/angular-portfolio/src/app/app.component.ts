@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+
 import { ParticleBackgroundComponent } from './shared/components/particle-background/particle-background.component';
 import { CustomCursorComponent } from './shared/components/custom-cursor/custom-cursor.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
@@ -10,20 +10,19 @@ import { ProjectsComponent } from './features/projects/projects.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 
 @Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [
-        CommonModule,
-        RouterOutlet,
-        ParticleBackgroundComponent,
-        CustomCursorComponent,
-        NavigationComponent,
-        HomeComponent,
-        SkillsComponent,
-        ProjectsComponent,
-        FooterComponent
-    ],
-    template: `
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ParticleBackgroundComponent,
+    CustomCursorComponent,
+    NavigationComponent,
+    HomeComponent,
+    SkillsComponent,
+    ProjectsComponent,
+    FooterComponent
+  ],
+  template: `
     <app-particle-background></app-particle-background>
     <app-custom-cursor></app-custom-cursor>
     
@@ -37,12 +36,11 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     
     <app-footer></app-footer>
   `,
-    styles: [`
+  styles: [`
     main {
         padding-top: 0; /* Handled by home section padding */
     }
   `]
 })
 export class AppComponent {
-    title = 'angular-portfolio';
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, HostListener, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProjectsService, Project } from '../../core/services/projects.service';
 import { ProjectCardComponent } from './project-card/project-card.component';
@@ -11,6 +12,15 @@ import { ProjectCardComponent } from './project-card/project-card.component';
     <section id="projects" [class.active]="isActive">
         <h2>PROJECT<span class="neon-text-purple">SHOWCASE</span></h2>
         <p class="section-subtitle">A collection of my finest work, showcasing technical skills and creative solutions.</p>
+        
+        <div class="filter-buttons">
+            <button *ngFor="let category of categories" 
+                    class="filter-btn" 
+                    [class.active]="selectedCategory === category"
+                    (click)="filterProjects(category)">
+                {{ category }}
+            </button>
+        </div>
         
         <div class="project-carousel-container">
             <div class="project-carousel-track" #carouselTrack 
@@ -68,6 +78,35 @@ import { ProjectCardComponent } from './project-card/project-card.component';
         max-width: 600px;
     }
 
+    .filter-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        z-index: 10;
+        position: relative;
+    }
+
+    .filter-btn {
+        background: transparent;
+        border: 1px solid var(--primary-color);
+        color: var(--text-color);
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        font-family: 'Orbitron', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+        background: var(--primary-color);
+        color: var(--background-color);
+        box-shadow: var(--neon-glow-cyan);
+    }
+
     .project-carousel-container {
         width: 100%;
         height: 500px;
@@ -105,6 +144,8 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     projects: (Project & { isClone?: boolean })[] = [];
     visibleProjects: (Project & { isClone?: boolean })[] = [];
+    categories: string[] = ['All', 'Python', 'Java', 'JavaScript', 'Hardware', 'AI'];
+    selectedCategory: string = 'All';
 
     currentIndex = 0;
     isActive = false;
@@ -120,20 +161,14 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         private projectsService: ProjectsService,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private router: Router
     ) { }
 
     ngOnInit() {
         this.projectsService.getProjects().subscribe(data => {
             this.projects = data;
-            this.visibleProjects = [...this.projects];
-            // We don't need clones for this specific 3D implementation as we are rotating the array or index
-            // But the original code used clones for infinite scroll animation.
-            // Let's stick to the logic: "Infinite carousel with 3D effects".
-            // The original code had a complex "infiniteCarousel" keyframe animation AND a 3D effect function.
-            // It seems it was moving the track with keyframes.
-            // Here, for Angular, it's cleaner to manipulate the array or index to achieve infinite effect.
-            // I will implement a circular buffer logic where currentIndex rotates.
+            this.filterProjects('All');
         });
     }
 
@@ -190,12 +225,25 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
         return index === this.currentIndex ? 'pulse 2s ease infinite' : 'none';
     }
 
+    filterProjects(category: string) {
+        this.selectedCategory = category;
+        this.currentIndex = 0;
+
+        if (category === 'All') {
+            this.visibleProjects = [...this.projects];
+        } else {
+            this.visibleProjects = this.projects.filter(p => p.category === category);
+        }
+    }
+
     // Navigation
     nextProject() {
+        if (this.visibleProjects.length === 0) return;
         this.currentIndex = (this.currentIndex + 1) % this.visibleProjects.length;
     }
 
     prevProject() {
+        if (this.visibleProjects.length === 0) return;
         this.currentIndex = (this.currentIndex - 1 + this.visibleProjects.length) % this.visibleProjects.length;
     }
 
@@ -203,12 +251,8 @@ export class ProjectsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (index !== this.currentIndex) {
             this.currentIndex = index;
         } else {
-            // Navigate to project
-            if (project.link.startsWith('http')) {
-                window.open(project.link, '_blank');
-            } else {
-                window.location.href = project.link;
-            }
+            // Navigate to project details
+            this.router.navigate(['/projects', project.id]);
         }
     }
 

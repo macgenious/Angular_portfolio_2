@@ -1,0 +1,22 @@
+<div class="project-details-container" *ngIf="project">
+  <button class="back-btn" routerLink="/projects">← Back to Projects</button>
+  
+  <div class="project-content">
+    <div class="project-image">
+      <img [src]="project.image" [alt]="project.title">
+    </div>
+    
+    <div class="project-info">
+      <h1 class="project-title">{{ project.title }}</h1>
+      <span class="project-category">{{ project.category }}</span>
+      
+      <p class="project-description">{{ project.description }}</p>
+      
+      <div class="project-actions">
+        <a [href]="project.link" target="_blank" class="view-project-btn">
+          View Project <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
