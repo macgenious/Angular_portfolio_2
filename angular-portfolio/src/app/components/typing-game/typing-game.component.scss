@@ -1,0 +1,123 @@
+.typing-game {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-btn {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.controls select, .controls button {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.controls .primary {
+  background: #4a7cf7;
+  color: #fff;
+  border-color: #4a7cf7;
+}
+
+.snippet {
+  background: #f7f9fc;
+  border: 1px solid #e3e8f0;
+  border-radius: 10px;
+  padding: 1rem;
+  min-height: 72px;
+  transition: box-shadow 300ms ease;
+}
+
+.snippet.active {
+  box-shadow: 0 0 0 3px rgba(74, 124, 247, 0.25);
+}
+
+.input-area {
+  margin-top: 1rem;
+}
+
+.input-area textarea {
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #dfe3ea;
+  outline: none;
+  transition: border-color 200ms ease;
+}
+
+.input-area textarea:focus {
+  border-color: #4a7cf7;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.input-area.shake textarea {
+  animation: shake 0.3s;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat {
+  background: #f7f9fc;
+  border: 1px solid #e3e8f0;
+  border-radius: 10px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.stat .label { font-size: 0.85rem; color: #556; }
+.stat .value { font-size: 1.4rem; font-weight: 700; }
+.stat .value.highlight { color: #4a7cf7; }
+.stat .value.good { color: #2f9e44; }
+.stat .value.warn { color: #e9a10a; }
+.stat .value.bad { color: #d64545; }
+
+.high-scores {
+  margin-top: 1rem;
+}
+
+.high-scores ul {
+  list-style: none;
+  padding: 0;
+}
+
+.high-scores li {
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed #e3e8f0;
+}
+
+@media (max-width: 600px) {
+  .stats { grid-template-columns: 1fr; }
+}
+

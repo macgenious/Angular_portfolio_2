@@ -1,0 +1,43 @@
+<section id="skills" class="skills-section">
+  <div class="container">
+    <h2>SKILLMATRIX</h2>
+    <p class="section-subtitle">A comprehensive overview of my technical abilities and proficiency levels.</p>
+    
+    <div class="skills-container">
+      <div class="skill-categories">
+        <h3>Skill Categories</h3>
+        <div class="category-tabs">
+          <button 
+            *ngFor="let category of categories"
+            class="category-btn"
+            [class.active]="(activeCategory$ | async) === category"
+            (click)="setActiveCategory(category)">
+            {{ category }}
+          </button>
+        </div>
+      </div>
+      
+      <div class="proficiency-levels">
+        <h3>Proficiency Levels</h3>
+        <div class="skill-items-container">
+          <div 
+            *ngFor="let skill of (skills$ | async)"
+            class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">{{ skill.name }}</span>
+              <span class="skill-percentage">{{ skill.proficiency }}%</span>
+            </div>
+            <div class="skill-bar">
+              <div 
+                class="skill-progress"
+                [style.width]="getProficiencyWidth(skill.proficiency)"
+                [style.background]="getProficiencyColor(skill.proficiency)">
+              </div>
+            </div>
+            <p class="skill-description">{{ skill.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+{
+  "builds": [
+    {
+      "src": "angular-portfolio/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "angular-portfolio/dist/angular-portfolio"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/angular-portfolio/dist/angular-portfolio/$1"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
