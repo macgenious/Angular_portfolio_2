@@ -226,6 +226,26 @@ export class ParticlesService {
     return this.isRunningSubject.asObservable();
   }
 
+  private reset(p: Particle): void {
+    const w = this.canvas!.width;
+    const h = this.canvas!.height;
+    const radius = this.rand(this.config.minSize, this.config.maxSize);
+    const hue = Math.floor(this.rand(0, 360));
+    const sat = Math.floor(this.rand(70, 100));
+    const light = Math.floor(this.rand(50, 70));
+    const speed = this.rand(this.config.minSpeed, this.config.maxSpeed);
+    p.x = Math.random() * w;
+    p.y = Math.random() * h;
+    p.vx = (Math.random() - 0.5) * speed;
+    p.vy = (Math.random() - 0.5) * speed;
+    p.radius = radius;
+    p.color = `hsl(${hue} ${sat}% ${light}%)`;
+    p.alpha = Math.random() * 0.5 + 0.5;
+    const now = Date.now();
+    p.changeAt = now + Math.floor(this.rand(2000, 6000));
+    p.dieAt = now + 500;
+  }
+
   destroy(): void {
     this.stop();
     this.particles = [];
@@ -274,22 +294,3 @@ class Quadtree {
     ];
   }
 }
-  private reset(p: Particle): void {
-    const w = this.canvas!.width;
-    const h = this.canvas!.height;
-    const radius = this.rand(this.config.minSize, this.config.maxSize);
-    const hue = Math.floor(this.rand(0, 360));
-    const sat = Math.floor(this.rand(70, 100));
-    const light = Math.floor(this.rand(50, 70));
-    const speed = this.rand(this.config.minSpeed, this.config.maxSpeed);
-    p.x = Math.random() * w;
-    p.y = Math.random() * h;
-    p.vx = (Math.random() - 0.5) * speed;
-    p.vy = (Math.random() - 0.5) * speed;
-    p.radius = radius;
-    p.color = `hsl(${hue} ${sat}% ${light}%)`;
-    p.alpha = Math.random() * 0.5 + 0.5;
-    const now = Date.now();
-    p.changeAt = now + Math.floor(this.rand(2000, 6000));
-    p.dieAt = now + 500;
-  }
