@@ -9,7 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   standalone: true,
   imports: [RouterOutlet, NavbarComponent],
   templateUrl: './root.html',
-  styleUrl: './app.scss',
+  styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App implements AfterViewInit, OnDestroy {

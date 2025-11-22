@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  styleUrls: ['./navbar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent implements OnDestroy {

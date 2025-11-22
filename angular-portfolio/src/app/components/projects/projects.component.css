@@ -7,11 +7,11 @@
 
 .container {
   width: 100%;
-  
-  &:has(.project-carousel-container) {
-    max-width: none;
-    padding: 0;
-  }
+}
+
+.container:has(.project-carousel-container) {
+  max-width: none;
+  padding: 0;
 }
 
 .projects-section h2 {
@@ -80,10 +80,10 @@
   flex-wrap: nowrap;
   animation: scroll 30s linear infinite;
   width: max-content;
-  
-  &.paused {
-    animation-play-state: paused;
-  }
+}
+
+.project-carousel-track.paused {
+  animation-play-state: paused;
 }
 
 @keyframes scroll {
@@ -107,19 +107,21 @@
   border: 1px solid rgba(0, 255, 255, 0.3);
   position: relative;
   flex-shrink: 0;
-  
-  &.hovered {
-    transform: scale(1.15) translateY(-10px);
-    border-color: var(--primary-color);
-    box-shadow: var(--neon-glow-cyan);
-    z-index: 100;
-  }
-  
-  &.dimmed {
-    transform: scale(0.85);
-    opacity: 0.6;
-    filter: brightness(0.7);
-  }
+  content-visibility: auto;
+  contain-intrinsic-size: 400px 300px;
+}
+
+.project-card.hovered {
+  transform: scale(1.15) translateY(-10px);
+  border-color: var(--primary-color);
+  box-shadow: var(--neon-glow-cyan);
+  z-index: 100;
+}
+
+.project-card.dimmed {
+  transform: scale(0.85);
+  opacity: 0.6;
+  filter: brightness(0.7);
 }
 
 .project-card:hover {
@@ -164,8 +166,6 @@
   justify-content: center;
   background: rgba(10, 10, 35, 0.8);
 }
-
-.project-card { content-visibility: auto; contain-intrinsic-size: 400px 300px; }
 
 .project-card-title h3 {
   font-size: 1.3rem;

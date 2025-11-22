@@ -9,7 +9,7 @@ import { Observable, Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss'],
+  styleUrls: ['./projects.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
