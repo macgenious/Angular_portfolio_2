@@ -45,12 +45,4 @@ export class SkillsComponent implements OnInit, OnDestroy {
   getProficiencyWidth(proficiency: number): string {
     return `${proficiency}%`;
   }
-
-  getProficiencyColor(proficiency: number): string {
-    if (proficiency >= 90) return '#00ff00'; // Green
-    if (proficiency >= 80) return '#00ffff'; // Cyan
-    if (proficiency >= 70) return '#ffff00'; // Yellow
-    if (proficiency >= 60) return '#ff8800'; // Orange
-    return '#ff0000'; // Red
-  }
 }

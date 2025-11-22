@@ -23,18 +23,19 @@
           <div 
             *ngFor="let skill of (skills$ | async)"
             class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">{{ skill.name }}</span>
-              <span class="skill-percentage">{{ skill.proficiency }}%</span>
-            </div>
-            <div class="skill-bar">
-              <div 
-                class="skill-progress"
-                [style.width]="getProficiencyWidth(skill.proficiency)"
-                [style.background]="getProficiencyColor(skill.proficiency)">
+            <div class="skill-accent"></div>
+            <div class="skill-content">
+              <div class="skill-header">
+                <span class="skill-name">{{ skill.name }}</span>
+                <span class="skill-percentage">{{ skill.proficiency }}%</span>
+              </div>
+              <div class="skill-bar">
+                <div 
+                  class="skill-progress"
+                  [style.width]="getProficiencyWidth(skill.proficiency)">
+                </div>
               </div>
             </div>
-            <p class="skill-description">{{ skill.description }}</p>
           </div>
         </div>
       </div>

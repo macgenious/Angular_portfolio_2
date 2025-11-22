@@ -7,10 +7,12 @@ export interface Particle {
   vx: number;
   vy: number;
   radius: number;
+  targetRadius: number;
   color: string;
   alpha: number;
-  changeAt: number;
-  dieAt: number;
+  targetAlpha: number;
+  phase: 'spawn' | 'active' | 'death';
+  phaseStartTime: number;
 }
 
 @Injectable({
@@ -28,11 +30,14 @@ export class ParticlesService {
   private config = {
     particleCount: 100,
     minSize: 1,
-    maxSize: 2,
-    minSpeed: 0.2,
-    maxSpeed: 0.8,
+    maxSize: 3,
+    minSpeed: 0.3,
+    maxSpeed: 1.2,
     connectionDistance: 120,
-    connectionColor: 'rgba(0, 255, 255, 0.08)'
+    connectionColor: 'rgba(0, 255, 255, 0.08)',
+    spawnDuration: 800,     // Fade in and grow to max
+    activeDuration: 1500,   // Stay at max size
+    deathDuration: 800      // Shrink and fade out
   };
 
   constructor() {}
@@ -60,29 +65,47 @@ export class ParticlesService {
     const target = this.getAdaptiveCount();
     this.particles = [];
     for (let i = 0; i < target; i++) {
-      this.particles.push(this.spawn());
+      // Stagger initial spawns to avoid all particles spawning at once
+      const particle = this.spawn();
+      particle.phaseStartTime = Date.now() - Math.random() * this.config.spawnDuration;
+      this.particles.push(particle);
     }
   }
 
   private spawn(): Particle {
     const w = this.canvas!.width;
     const h = this.canvas!.height;
-    const radius = this.rand(this.config.minSize, this.config.maxSize);
+    const targetRadius = this.rand(this.config.minSize, this.config.maxSize);
     const hue = Math.floor(this.rand(0, 360));
     const sat = Math.floor(this.rand(70, 100));
     const light = Math.floor(this.rand(50, 70));
     const speed = this.rand(this.config.minSpeed, this.config.maxSpeed);
-    const p = this.pool.pop() || { x: 0, y: 0, vx: 0, vy: 0, radius: 0, color: '', alpha: 1, changeAt: 0, dieAt: 0 };
-    p.x = Math.random() * w;
-    p.y = Math.random() * h;
-    p.vx = (Math.random() - 0.5) * speed;
-    p.vy = (Math.random() - 0.5) * speed;
-    p.radius = radius;
+    
+    const p = this.pool.pop() || { 
+      x: 0, y: 0, vx: 0, vy: 0, radius: 0, targetRadius: 0,
+      color: '', alpha: 0, targetAlpha: 0, 
+      phase: 'spawn' as 'spawn', phaseStartTime: 0
+    };
+    
+    // Start from edges of screen
+    const edge = Math.floor(Math.random() * 4);
+    if (edge === 0) { p.x = 0; p.y = Math.random() * h; } // Left
+    else if (edge === 1) { p.x = w; p.y = Math.random() * h; } // Right
+    else if (edge === 2) { p.x = Math.random() * w; p.y = 0; } // Top
+    else { p.x = Math.random() * w; p.y = h; } // Bottom
+    
+    // Random direction
+    const angle = Math.random() * Math.PI * 2;
+    p.vx = Math.cos(angle) * speed;
+    p.vy = Math.sin(angle) * speed;
+    
+    p.radius = 0; // Start at 0 and grow
+    p.targetRadius = targetRadius;
     p.color = `hsl(${hue} ${sat}% ${light}%)`;
-    p.alpha = Math.random() * 0.5 + 0.5;
-    const now = Date.now();
-    p.changeAt = now + Math.floor(this.rand(2000, 6000));
-    p.dieAt = now + 500;
+    p.alpha = 0; // Start invisible
+    p.targetAlpha = Math.random() * 0.3 + 0.5;
+    p.phase = 'spawn';
+    p.phaseStartTime = Date.now();
     return p;
   }
 
@@ -127,28 +150,59 @@ export class ParticlesService {
 
   private updateParticle(particle: Particle): void {
     if (!this.canvas) return;
-    if (Date.now() > particle.dieAt) { this.reset(particle); }
+    
+    const now = Date.now();
+    const timeSincePhaseStart = now - particle.phaseStartTime;
+
+    // Handle phase transitions
+    if (particle.phase === 'spawn') {
+      // Spawning phase: fade in and grow to max
+      const progress = Math.min(1, timeSincePhaseStart / this.config.spawnDuration);
+      particle.alpha = particle.targetAlpha * this.easeOutCubic(progress);
+      particle.radius = particle.targetRadius * this.easeOutCubic(progress);
+      
+      if (progress >= 1) {
+        particle.phase = 'active';
+        particle.phaseStartTime = now;
+      }
+    } else if (particle.phase === 'active') {
+      // Active phase: stay at max size, then transition to death
+      particle.alpha = particle.targetAlpha;
+      particle.radius = particle.targetRadius;
+      
+      if (timeSincePhaseStart >= this.config.activeDuration) {
+        particle.phase = 'death';
+        particle.phaseStartTime = now;
+      }
+    } else if (particle.phase === 'death') {
+      // Death phase: shrink and fade out
+      const progress = Math.min(1, timeSincePhaseStart / this.config.deathDuration);
+      particle.alpha = particle.targetAlpha * (1 - this.easeInCubic(progress));
+      particle.radius = particle.targetRadius * (1 - this.easeInCubic(progress));
+      
+      if (progress >= 1) {
+        this.reset(particle);
+      }
+    }
+
+    // Move particle in constant direction
     particle.x += particle.vx;
     particle.y += particle.vy;
 
-    if (Date.now() > particle.changeAt) {
-      const speed = this.rand(this.config.minSpeed, this.config.maxSpeed);
-      particle.vx = (Math.random() - 0.5) * speed;
-      particle.vy = (Math.random() - 0.5) * speed;
-      particle.changeAt = Date.now() + Math.floor(this.rand(2000, 6000));
+    // Check if particle is off screen - if so, respawn
+    if (particle.x < -50 || particle.x > this.canvas.width + 50 || 
+        particle.y < -50 || particle.y > this.canvas.height + 50) {
+      this.reset(particle);
     }
+  }
 
-    // Bounce off walls
-    if (particle.x <= 0 || particle.x >= this.canvas.width) {
-      particle.vx *= -1;
-    }
-    if (particle.y <= 0 || particle.y >= this.canvas.height) {
-      particle.vy *= -1;
-    }
+  // Easing functions for smooth animations
+  private easeOutCubic(t: number): number {
+    return 1 - Math.pow(1 - t, 3);
+  }
 
-    // Keep particles within bounds
-    particle.x = Math.max(0, Math.min(this.canvas.width, particle.x));
-    particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
+  private easeInCubic(t: number): number {
+    return t * t * t;
   }
 
   private drawParticle(particle: Particle): void {
@@ -177,7 +231,9 @@ export class ParticlesService {
         const d = Math.sqrt(dx * dx + dy * dy);
         if (d < this.config.connectionDistance) {
           const o = 1 - d / this.config.connectionDistance;
-          this.ctx.globalAlpha = o * 0.2;
+          // Factor in both particles' alpha for connection opacity
+          const connectionAlpha = o * 0.2 * Math.min(p.alpha, q.alpha);
+          this.ctx.globalAlpha = connectionAlpha;
           this.ctx.beginPath();
           this.ctx.moveTo(p.x, p.y);
           this.ctx.lineTo(q.x, q.y);
@@ -192,7 +248,6 @@ export class ParticlesService {
     const qt = new Quadtree(0, 0, this.canvas!.width, this.canvas!.height, 8);
     for (const p of this.particles) qt.insert(p);
     for (const p of this.particles) {
-      if (Date.now() > p.dieAt) { this.reset(p); }
       this.updateParticle(p);
       const neighbors = qt.query(p.x, p.y, p.radius * 2);
       for (const q of neighbors) {
@@ -229,21 +284,31 @@ export class ParticlesService {
   private reset(p: Particle): void {
     const w = this.canvas!.width;
     const h = this.canvas!.height;
-    const radius = this.rand(this.config.minSize, this.config.maxSize);
+    const targetRadius = this.rand(this.config.minSize, this.config.maxSize);
     const hue = Math.floor(this.rand(0, 360));
     const sat = Math.floor(this.rand(70, 100));
     const light = Math.floor(this.rand(50, 70));
     const speed = this.rand(this.config.minSpeed, this.config.maxSpeed);
-    p.x = Math.random() * w;
-    p.y = Math.random() * h;
-    p.vx = (Math.random() - 0.5) * speed;
-    p.vy = (Math.random() - 0.5) * speed;
-    p.radius = radius;
+    
+    // Start from edges of screen
+    const edge = Math.floor(Math.random() * 4);
+    if (edge === 0) { p.x = 0; p.y = Math.random() * h; } // Left
+    else if (edge === 1) { p.x = w; p.y = Math.random() * h; } // Right
+    else if (edge === 2) { p.x = Math.random() * w; p.y = 0; } // Top
+    else { p.x = Math.random() * w; p.y = h; } // Bottom
+    
+    // Random direction
+    const angle = Math.random() * Math.PI * 2;
+    p.vx = Math.cos(angle) * speed;
+    p.vy = Math.sin(angle) * speed;
+    
+    p.radius = 0;
+    p.targetRadius = targetRadius;
     p.color = `hsl(${hue} ${sat}% ${light}%)`;
-    p.alpha = Math.random() * 0.5 + 0.5;
-    const now = Date.now();
-    p.changeAt = now + Math.floor(this.rand(2000, 6000));
-    p.dieAt = now + 500;
+    p.alpha = 0;
+    p.targetAlpha = Math.random() * 0.3 + 0.5;
+    p.phase = 'spawn';
+    p.phaseStartTime = Date.now();
   }
 
   destroy(): void {
