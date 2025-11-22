@@ -21,13 +21,13 @@ describe('ProjectsService navigation', () => {
 
   it('opens external links in new tab', () => {
     spyOn(window, 'open');
-    service.navigateToProject({ id: 'x', title: 't', category: 'c', imageUrl: '', projectPath: 'https://example.com' });
+    service.navigateToProject({ id: 'x', title: 't', category: 'Python', imageUrl: '', projectPath: 'https://example.com' });
     expect(window.open).toHaveBeenCalled();
   });
 
   it('navigates to internal route starting with /', () => {
-    service.navigateToProject({ id: 'y', title: 't', category: 'c', imageUrl: '', projectPath: '/typing-game' });
-    expect(navigateByUrlSpy).toHaveBeenCalledWith('/typing-game');
+    service.navigateToProject({ id: 'y', title: 't', category: 'Python', imageUrl: '', projectPath: '/projects' });
+    expect(navigateByUrlSpy).toHaveBeenCalledWith('/projects');
   });
 });
 

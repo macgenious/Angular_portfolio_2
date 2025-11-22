@@ -1,5 +1,5 @@
 <section id="projects" class="projects-section">
-  <div class="container" *ngIf="!showTypingGame; else typingGameView">
+  <div class="container">
     <h2>PROJECTSHOWCASE</h2>
     <p class="section-subtitle">A collection of my finest work, showcasing technical skills and creative solutions.</p>
     
@@ -56,12 +56,5 @@
     <div class="no-projects-message" *ngIf="visibleCards.length === 0">
       No projects found for this category.
     </div>
-  </div>
-
-  <ng-template #typingGameView>
-    <div class="game-wrapper">
-      <button class="game-back" (click)="closeTypingGame()">← Back to Projects</button>
-      <app-typing-game [embedded]="true"></app-typing-game>
     </div>
-  </ng-template>
 </section>

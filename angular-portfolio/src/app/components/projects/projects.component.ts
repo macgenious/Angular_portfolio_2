@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ProjectsService } from '../../services/projects.service';
 import { Project } from '../../models/project.interface';
 import { Observable, Subscription } from 'rxjs';
-import { TypingGameComponent } from '../typing-game/typing-game.component';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, TypingGameComponent],
+  imports: [CommonModule],
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -20,7 +19,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   
   private subscription = new Subscription();
   visibleCards: Project[] = [];
-  showTypingGame = false;
   isPaused = false;
   hoveredCardId: string | null = null;
 
@@ -47,20 +45,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   }
 
   onProjectClick(project: Project): void {
-    const isTypingGame = project.title === 'Typing Improvement Game' || project.projectPath === '/typing-game' || project.id === '6';
-    if (isTypingGame) {
-      this.showTypingGame = true;
-      return;
-    }
     setTimeout(() => {
       this.projectsService.navigateToProject(project);
     }, 500);
   }
-
-  closeTypingGame(): void {
-    this.showTypingGame = false;
-  }
-
   pauseAnimation(projectId: string): void {
     this.isPaused = true;
     this.hoveredCardId = projectId;
