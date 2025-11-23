@@ -12,35 +12,35 @@ export class ProjectsService {
       id: '1',
       title: 'Pokedex Python API',
       category: 'Python',
-      imageUrl: 'imgs/projects/pokedex-python-banner.png',
+      imageUrl: 'assets/imgs/projects/pokedex-python-banner.png',
       projectPath: 'pokedex'
     },
     {
       id: '2',
       title: 'Java Game',
       category: 'Java',
-      imageUrl: 'imgs/projects/java-game-banner.jpg',
+      imageUrl: 'assets/imgs/projects/java-game-banner.jpg',
       projectPath: 'java'
     },
     {
       id: '3',
       title: 'Personality Book Test',
       category: 'JavaScript',
-      imageUrl: 'imgs/projects/personality-test-banner.png',
+      imageUrl: 'assets/imgs/projects/personality-test-banner.png',
       projectPath: 'https://llarjovecorresponsales.infinityfreeapp.com'
     },
     {
       id: '4',
       title: 'Arduino Car Project',
       category: 'Hardware',
-      imageUrl: 'imgs/projects/arduino-car-banner.webp',
+      imageUrl: 'assets/imgs/projects/arduino-car-banner.webp',
       projectPath: 'arduino'
     },
     {
       id: '5',
       title: 'AI Chatbot Assistant',
       category: 'AI',
-      imageUrl: 'imgs/projects/ai-chatbot-banner.png',
+      imageUrl: 'assets/imgs/projects/ai-chatbot-banner.png',
       projectPath: 'deepseek_api'
     }
   ];
