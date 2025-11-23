@@ -1,0 +1,52 @@
+<div class="project-details-container" *ngIf="project(); else notFound">
+  <div class="project-hero">
+    <div class="category-badge">{{ project()!.category }}</div>
+    <h1 class="project-title">{{ project()!.title }}</h1>
+  </div>
+
+  <div class="project-banner">
+    <img [src]="project()!.imageUrl" [alt]="project()!.title + ' banner'" />
+  </div>
+
+  <div class="project-content">
+    <section class="project-description">
+      <h2>About This Project</h2>
+      <p *ngIf="project()!.description">{{ project()!.description }}</p>
+      <p *ngIf="!project()!.description">
+        This is an amazing project showcasing modern development practices and innovative solutions.
+        Built with passion and attention to detail, it demonstrates proficiency in {{ project()!.category }} development.
+      </p>
+    </section>
+
+    <section class="project-meta">
+      <div class="meta-item">
+        <span class="meta-label">Category</span>
+        <span class="meta-value">{{ project()!.category }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Project ID</span>
+        <span class="meta-value">#{{ project()!.id }}</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="project-actions">
+    <a 
+      [routerLink]="['/']" 
+      fragment="projects" 
+      class="btn-view-more"
+      aria-label="View more projects">
+      View More Projects
+    </a>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="not-found">
+    <h1>Project Not Found</h1>
+    <p>The project you're looking for doesn't exist.</p>
+    <a [routerLink]="['/']" fragment="projects" class="btn-back">
+      Back to Projects
+    </a>
+  </div>
+</ng-template>

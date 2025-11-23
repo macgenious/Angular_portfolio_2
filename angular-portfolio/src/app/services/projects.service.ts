@@ -73,17 +73,19 @@ export class ProjectsService {
     return ['All', 'Python', 'Java', 'JavaScript', 'Hardware', 'AI'];
   }
 
+  getProjectById(id: string): Project | undefined {
+    return this.projects.find(project => project.id === id);
+  }
+
   navigateToProject(project: Project): void {
     const path = project.projectPath;
     if (!path) return;
+    
     if (path.startsWith('http')) {
       window.open(path, '_blank');
       return;
     }
-    if (path.startsWith('/')) {
-      this.router.navigateByUrl(path);
-      return;
-    }
-    window.location.href = `${path}/index.html`;
+    
+    this.router.navigate(['/projects', project.id]);
   }
 }

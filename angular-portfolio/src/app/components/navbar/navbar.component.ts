@@ -1,11 +1,12 @@
 import { Component, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnDestroy {
   open = false;
   active = 'home';
+  isOnProjectDetails = false;
   private io?: IntersectionObserver;
   private handler = () => {};
 
@@ -21,6 +23,14 @@ export class NavbarComponent implements OnDestroy {
     this.handler = this.debounce(() => this.initObserver(), 250);
     window.addEventListener('resize', this.handler, { passive: true });
     window.addEventListener('scroll', this.handler, { passive: true });
+    
+    // Track navigation to project details
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.isOnProjectDetails = event.url.startsWith('/projects/') && event.url !== '/projects';
+      this.cdr.markForCheck();
+    });
   }
 
   ngOnDestroy(): void {
@@ -45,6 +55,11 @@ export class NavbarComponent implements OnDestroy {
         this.open = false;
       });
     }
+  }
+
+  returnToHome(): void {
+    this.router.navigate(['/'], { fragment: 'projects' });
+    this.open = false;
   }
 
   private initObserver(): void {
