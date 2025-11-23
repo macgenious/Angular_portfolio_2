@@ -27,7 +27,7 @@ export class ProjectsService {
       title: 'Personality Book Test',
       category: 'JavaScript',
       imageUrl: 'assets/imgs/projects/personality-test-banner.png',
-      projectPath: 'https://llarjovecorresponsales.infinityfreeapp.com'
+      projectPath: 'https://macgenious.github.io/test-libro-llar-jove/'
     },
     {
       id: '4',
