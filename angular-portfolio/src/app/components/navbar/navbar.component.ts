@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,7 @@ export class NavbarComponent implements OnDestroy {
   private io?: IntersectionObserver;
   private handler = () => {};
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private cdr: ChangeDetectorRef) {
     this.initObserver();
     this.handler = this.debounce(() => this.initObserver(), 250);
     window.addEventListener('resize', this.handler, { passive: true });
@@ -51,7 +51,10 @@ export class NavbarComponent implements OnDestroy {
     if (this.io) this.io.disconnect();
     this.io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) this.active = (e.target as HTMLElement).id;
+        if (e.isIntersecting) {
+          this.active = (e.target as HTMLElement).id;
+          this.cdr.markForCheck();
+        }
       });
     }, { root: null, threshold: 0.6 });
     ['home','skills','projects'].forEach(id => {
