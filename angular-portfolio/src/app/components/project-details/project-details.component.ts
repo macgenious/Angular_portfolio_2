@@ -21,4 +21,11 @@ export class ProjectDetailsComponent {
   });
 
   constructor(private projectsService: ProjectsService) {}
+
+  openGithubRepo(): void {
+    const githubUrl = this.project()?.githubUrl;
+    if (githubUrl) {
+      window.open(githubUrl, '_blank', 'noopener,noreferrer');
+    }
+  }
 }

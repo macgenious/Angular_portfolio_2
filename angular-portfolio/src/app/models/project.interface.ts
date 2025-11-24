@@ -5,6 +5,7 @@ export interface Project {
   imageUrl: string;
   description?: string;
   projectPath?: string;
+  githubUrl?: string;
 }
 
 export interface ProjectFilter {

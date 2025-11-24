@@ -22,6 +22,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   isPaused = false;
   hoveredCardId: string | null = null;
 
+  isFiltered = false;
+
   constructor(private projectsService: ProjectsService) {
     this.projects$ = this.projectsService.getAllProjects();
     this.activeFilter$ = this.projectsService.getActiveFilter();
@@ -32,6 +34,13 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.projects$.subscribe(projects => {
         this.visibleCards = projects;
+      })
+    );
+    
+    // Subscribe to active filter to update isFiltered state
+    this.subscription.add(
+      this.activeFilter$.subscribe(filter => {
+        this.isFiltered = filter !== 'All';
       })
     );
   }

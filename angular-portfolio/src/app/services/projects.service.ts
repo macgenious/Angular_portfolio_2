@@ -13,35 +13,40 @@ export class ProjectsService {
       title: 'Pokedex Python API',
       category: 'Python',
       imageUrl: 'assets/imgs/projects/pokedex-python-banner.png',
-      projectPath: 'pokedex'
+      projectPath: 'pokedex',
+      githubUrl: 'https://github.com/macgenious/pokedex-python-api'
     },
     {
       id: '2',
       title: 'Java Game',
       category: 'Java',
       imageUrl: 'assets/imgs/projects/java-game-banner.jpg',
-      projectPath: 'java'
+      projectPath: 'java',
+      githubUrl: 'https://github.com/macgenious/java-game'
     },
     {
       id: '3',
       title: 'Personality Book Test',
       category: 'JavaScript',
       imageUrl: 'assets/imgs/projects/personality-test-banner.png',
-      projectPath: 'https://macgenious.github.io/test-libro-llar-jove/'
+      projectPath: 'https://macgenious.github.io/test-libro-llar-jove/',
+      githubUrl: 'https://github.com/macgenious/test-libro-llar-jove'
     },
     {
       id: '4',
       title: 'Arduino Car Project',
       category: 'Hardware',
       imageUrl: 'assets/imgs/projects/arduino-car-banner.webp',
-      projectPath: 'arduino'
+      projectPath: 'arduino',
+      githubUrl: 'https://github.com/macgenious/arduino-car-project'
     },
     {
       id: '5',
       title: 'AI Chatbot Assistant',
       category: 'AI',
       imageUrl: 'assets/imgs/projects/ai-chatbot-banner.png',
-      projectPath: 'deepseek_api'
+      projectPath: 'deepseek_api',
+      githubUrl: 'https://github.com/macgenious/ai-chatbot-assistant'
     }
   ];
 

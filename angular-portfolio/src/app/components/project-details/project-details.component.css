@@ -156,6 +156,7 @@
   border-color: #00d4ff;
   box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
   transform: translateY(-5px);
+  background: rgba(0, 212, 255, 0.1);
 }
 
 .meta-label {
@@ -170,6 +171,37 @@
   font-size: 1.3rem;
   color: #00d4ff;
   font-weight: 700;
+}
+
+/* GitHub Button */
+.github-button {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 10px;
+  padding: 50px;
+  /*I want to center the text in the box*/
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.github-button:hover {
+  border-color: #00d4ff;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  transform: translateY(-5px);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.github-button .meta-value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.github-button svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* Project Actions */
