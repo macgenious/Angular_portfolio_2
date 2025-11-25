@@ -69,8 +69,8 @@ export class SkillsComponent implements OnInit, OnDestroy {
   // Get color class based on proficiency level
   getSegmentColorClass(proficiency: number): string {
     const segments = this.getSegmentCount(proficiency);
-    if (segments <= 1) return 'beginner-color';
-    if (segments <= 3) return 'intermediate-color';
-    return 'expert-color';
+    if (segments <= 2) return 'segment-pink';
+    if (segments <= 4) return 'segment-light-blue';
+    return 'segment-blue';
   }
 }

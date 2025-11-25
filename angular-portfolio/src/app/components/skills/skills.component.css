@@ -221,11 +221,11 @@
 }
 
 .legend-dot.intermediate {
-  background: linear-gradient(135deg, #8000ff, #4080ff);
+  background: linear-gradient(135deg, #00c0ff, #00ffff);
 }
 
 .legend-dot.expert {
-  background: linear-gradient(135deg, #00c0ff, #00ffff);
+  background: linear-gradient(135deg, #8000ff, #4080ff);
 }
 
 /* Segmented Bars */
@@ -253,21 +253,22 @@
 }
 
 /* Static colors based on proficiency level */
-.skill-segment.filled.beginner-color {
+/* Static colors based on proficiency level */
+.skill-segment.filled.segment-pink {
   background: linear-gradient(135deg, #ff00ff, #ff66ff);
   box-shadow: 0 0 15px rgba(255, 0, 255, 0.6),
               inset 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-.skill-segment.filled.intermediate-color {
+.skill-segment.filled.segment-light-blue {
   background: linear-gradient(135deg, #00d9ff, #66e0ff);
   box-shadow: 0 0 15px rgba(0, 217, 255, 0.6),
               inset 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-.skill-segment.filled.expert-color {
-  background: linear-gradient(135deg, #0099ff, #3366ff);
-  box-shadow: 0 0 15px rgba(0, 153, 255, 0.6),
+.skill-segment.filled.segment-blue {
+  background: linear-gradient(135deg, #0044ff, #3366ff);
+  box-shadow: 0 0 15px rgba(0, 68, 255, 0.6),
               inset 0 0 10px rgba(255, 255, 255, 0.3);
 }
 

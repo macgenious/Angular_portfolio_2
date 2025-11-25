@@ -12,7 +12,8 @@ export class ProjectsService {
       id: '1',
       title: 'Pokedex Python API',
       category: 'Python',
-      imageUrl: 'assets/imgs/projects/pokedex-python-banner.png',
+      imageUrl: 'assets/imgs/projects/python.png',
+      description: 'A RESTful API built with Python that provides comprehensive Pokemon data and statistics. Features include search functionality, detailed Pokemon information, and type-based filtering. Uses modern Python frameworks for efficient data handling and API endpoints.',
       projectPath: 'pokedex',
       githubUrl: 'https://github.com/macgenious/pokedex-python-api'
     },
@@ -20,7 +21,8 @@ export class ProjectsService {
       id: '2',
       title: 'Java Game',
       category: 'Java',
-      imageUrl: 'assets/imgs/projects/java-game-banner.jpg',
+      imageUrl: 'assets/imgs/projects/java.png',
+      description: 'An interactive game developed in Java featuring object-oriented design patterns and game mechanics. Implements collision detection, score tracking, and multiple game levels. Built using Java Swing for graphics rendering and event handling.',
       projectPath: 'java',
       githubUrl: 'https://github.com/macgenious/java-game'
     },
@@ -28,15 +30,16 @@ export class ProjectsService {
       id: '3',
       title: 'Personality Book Test',
       category: 'JavaScript',
-      imageUrl: 'assets/imgs/projects/personality-test-banner.png',
-      description: 'An interactive personality quiz that recommends books based on user preferences and personality traits. Built with vanilla JavaScript, HTML, and CSS, this project features dynamic question flows, result calculations, and personalized book recommendations. The application uses modern JavaScript techniques for state management and DOM manipulation to create an engaging user experience.',
+      imageUrl: 'assets/imgs/projects/javascript.png',
+      description: 'An interactive personality quiz that recommends books based on user preferences and personality traits. Features dynamic question flows and personalized recommendations using vanilla JavaScript.',
       githubUrl: 'https://github.com/macgenious/test-libro-llar-jove'
     },
     {
       id: '4',
       title: 'Arduino Car Project',
       category: 'Hardware',
-      imageUrl: 'assets/imgs/projects/arduino-car-banner.webp',
+      imageUrl: 'assets/imgs/projects/arduino.png',
+      description: 'A motorized car controlled by Arduino microcontroller featuring autonomous navigation and obstacle detection. Integrates motors, sensors, and custom circuitry for real-time movement control and environmental awareness.',
       projectPath: 'arduino',
       githubUrl: 'https://github.com/macgenious/arduino-car-project'
     },
@@ -44,7 +47,8 @@ export class ProjectsService {
       id: '5',
       title: 'AI Chatbot Assistant',
       category: 'AI',
-      imageUrl: 'assets/imgs/projects/ai-chatbot-banner.png',
+      imageUrl: 'assets/imgs/projects/gemini.png',
+      description: 'An intelligent chatbot powered by AI that provides conversational responses and assistance. Utilizes natural language processing APIs for context-aware dialogue and maintains conversation history for personalized interactions.',
       projectPath: 'deepseek_api',
       githubUrl: 'https://github.com/macgenious/ai-chatbot-assistant'
     }
