@@ -121,10 +121,24 @@
 }
 
 .project-card.hovered {
-  transform: scale(1.15) translateY(-10px);
-  border-color: var(--primary-color);
-  box-shadow: var(--neon-glow-cyan);
+  transform: scale(1.05) translateY(-5px);
   z-index: 100;
+}
+
+.project-card:hover {
+  border: 2px solid transparent;
+  background: 
+    linear-gradient(var(--card-background), var(--card-background)) padding-box,
+    linear-gradient(135deg, #ff00ff, #00ffff, #ff00ff, #00ffff) border-box;
+  background-size: 300% 300%;
+  animation: borderFlow 6s ease infinite;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+@keyframes borderFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .project-card.dimmed {
@@ -133,10 +147,7 @@
   filter: brightness(0.7);
 }
 
-.project-card:hover {
-  border-color: var(--primary-color);
-  box-shadow: var(--neon-glow-cyan);
-}
+
 
 .project-card-image {
   width: 100%;

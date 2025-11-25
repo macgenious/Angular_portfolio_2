@@ -119,7 +119,29 @@
   gap: 1.2rem;
   align-items: center;
   padding: 0.5rem 0;
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: slideInLeft 0.5s ease-out forwards;
 }
+
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Staggered animation delay for each skill item */
+.skill-item:nth-child(1) { animation-delay: 0.1s; }
+.skill-item:nth-child(2) { animation-delay: 0.2s; }
+.skill-item:nth-child(3) { animation-delay: 0.3s; }
+.skill-item:nth-child(4) { animation-delay: 0.4s; }
+.skill-item:nth-child(5) { animation-delay: 0.5s; }
+.skill-item:nth-child(6) { animation-delay: 0.6s; }
+.skill-item:nth-child(7) { animation-delay: 0.7s; }
+.skill-item:nth-child(8) { animation-delay: 0.8s; }
+.skill-item:nth-child(9) { animation-delay: 0.9s; }
+.skill-item:nth-child(10) { animation-delay: 1s; }
 
 .skill-accent {
   width: 4px;
@@ -155,6 +177,115 @@
   text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
 }
 
+.skill-level-label {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+/* Proficiency Legend */
+.proficiency-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(0, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.9;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.legend-dot.beginner {
+  background: linear-gradient(135deg, #ff00ff, #bf00ff);
+}
+
+.legend-dot.intermediate {
+  background: linear-gradient(135deg, #8000ff, #4080ff);
+}
+
+.legend-dot.expert {
+  background: linear-gradient(135deg, #00c0ff, #00ffff);
+}
+
+/* Segmented Bars */
+.skill-segments {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.skill-segment {
+  flex: 1;
+  height: 20px;
+  background: rgba(20, 20, 40, 0.8);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-segment.filled {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5),
+              inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Static colors based on proficiency level */
+.skill-segment.filled.beginner-color {
+  background: linear-gradient(135deg, #ff00ff, #ff66ff);
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.6),
+              inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.skill-segment.filled.intermediate-color {
+  background: linear-gradient(135deg, #00d9ff, #66e0ff);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.6),
+              inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.skill-segment.filled.expert-color {
+  background: linear-gradient(135deg, #0099ff, #3366ff);
+  box-shadow: 0 0 15px rgba(0, 153, 255, 0.6),
+              inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.skill-segment.filled::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 100%
+  );
+  border-radius: 4px 4px 0 0;
+}
+
 .skill-bar {
   width: 100%;
   height: 12px;
@@ -162,6 +293,16 @@
   border-radius: 6px;
   overflow: hidden;
   position: relative;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
 }
 
 .skill-progress {
@@ -169,12 +310,15 @@
   background: linear-gradient(
     90deg,
     #ff00ff 0%,
-    #bf00ff 20%,
-    #8000ff 40%,
-    #4080ff 60%,
-    #00c0ff 80%,
-    #00ffff 100%
+    #bf00ff 16.67%,
+    #8000ff 33.33%,
+    #4080ff 50%,
+    #00c0ff 66.67%,
+    #00ffff 83.33%,
+    #ff00ff 100%
   );
+  background-size: 200% 100%;
+  animation: gradientShift 4s linear infinite;
   border-radius: 6px;
   transition: width 1s ease-out;
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.5),

@@ -19,7 +19,12 @@
       
       <div class="proficiency-levels">
         <h3>Proficiency Levels</h3>
-        <div class="skill-items-container">
+        <div class="proficiency-legend">
+          <div class="legend-item"><span class="legend-dot beginner"></span>0-1 segments = Beginner/Basic</div>
+          <div class="legend-item"><span class="legend-dot intermediate"></span>2-3 segments = Intermediate/Advanced</div>
+          <div class="legend-item"><span class="legend-dot expert"></span>4-5 segments = Proficient/Expert</div>
+        </div>
+        <div class="skill-items-container" [attr.data-animation-key]="animationKey">
           <div 
             *ngFor="let skill of (skills$ | async)"
             class="skill-item">
@@ -27,12 +32,14 @@
             <div class="skill-content">
               <div class="skill-header">
                 <span class="skill-name">{{ skill.name }}</span>
-                <span class="skill-percentage">{{ skill.proficiency }}%</span>
+                <span class="skill-level-label">{{ getProficiencyLabel(skill.proficiency) }}</span>
               </div>
-              <div class="skill-bar">
+              <div class="skill-segments">
                 <div 
-                  class="skill-progress"
-                  [style.width]="getProficiencyWidth(skill.proficiency)">
+                  *ngFor="let segment of getSegmentArray()"
+                  class="skill-segment"
+                  [class.filled]="segment <= getSegmentCount(skill.proficiency)"
+                  [ngClass]="segment <= getSegmentCount(skill.proficiency) ? getSegmentColorClass(skill.proficiency) : ''">
                 </div>
               </div>
             </div>
