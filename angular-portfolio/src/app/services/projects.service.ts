@@ -29,7 +29,7 @@ export class ProjectsService {
       title: 'Personality Book Test',
       category: 'JavaScript',
       imageUrl: 'assets/imgs/projects/personality-test-banner.png',
-      projectPath: 'https://macgenious.github.io/test-libro-llar-jove/',
+      description: 'An interactive personality quiz that recommends books based on user preferences and personality traits. Built with vanilla JavaScript, HTML, and CSS, this project features dynamic question flows, result calculations, and personalized book recommendations. The application uses modern JavaScript techniques for state management and DOM manipulation to create an engaging user experience.',
       githubUrl: 'https://github.com/macgenious/test-libro-llar-jove'
     },
     {
@@ -84,9 +84,8 @@ export class ProjectsService {
 
   navigateToProject(project: Project): void {
     const path = project.projectPath;
-    if (!path) return;
     
-    if (path.startsWith('http')) {
+    if (path && path.startsWith('http')) {
       window.open(path, '_blank');
       return;
     }
