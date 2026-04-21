@@ -2,11 +2,12 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkillsComponent } from '../skills/skills.component';
 import { ProjectsComponent } from '../projects/projects.component';
+import { ContactComponent } from '../contact/contact.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, SkillsComponent, ProjectsComponent],
+  imports: [CommonModule, SkillsComponent, ProjectsComponent, ContactComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
