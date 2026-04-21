@@ -15,28 +15,30 @@ export class NavbarComponent implements OnDestroy {
   open = false;
   active = 'home';
   isOnProjectDetails = false;
-  private io?: IntersectionObserver;
+  private cleanupScroll?: () => void;
   private handler = () => {};
 
+  private readonly sectionIds = ['home', 'skills', 'projects', 'contact'];
+
   constructor(private router: Router, private cdr: ChangeDetectorRef) {
-    this.initObserver();
-    this.handler = this.debounce(() => this.initObserver(), 250);
+    this.initScrollTracker();
+    this.handler = this.debounce(() => this.updateActive(), 50);
     window.addEventListener('resize', this.handler, { passive: true });
-    window.addEventListener('scroll', this.handler, { passive: true });
-    
+
     // Track navigation to project details
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.isOnProjectDetails = event.url.startsWith('/projects/') && event.url !== '/projects';
       this.cdr.markForCheck();
+      // Re-evaluate active section after navigation settles
+      setTimeout(() => this.updateActive(), 100);
     });
   }
 
   ngOnDestroy(): void {
-    if (this.io) this.io.disconnect();
+    this.cleanupScroll?.();
     window.removeEventListener('resize', this.handler);
-    window.removeEventListener('scroll', this.handler);
   }
 
   toggle(): void {
@@ -62,20 +64,33 @@ export class NavbarComponent implements OnDestroy {
     this.open = false;
   }
 
-  private initObserver(): void {
-    if (this.io) this.io.disconnect();
-    this.io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          this.active = (e.target as HTMLElement).id;
-          this.cdr.markForCheck();
-        }
-      });
-    }, { root: null, threshold: 0.6 });
-    ['home','skills','projects'].forEach(id => {
+  private initScrollTracker(): void {
+    this.cleanupScroll?.();
+
+    this.updateActive();
+
+    const onScroll = this.debounce(() => this.updateActive(), 50);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    this.cleanupScroll = () => window.removeEventListener('scroll', onScroll);
+  }
+
+  // Finds which section is currently "active" by checking which section's top
+  // edge is closest to 40% down the viewport. Works for sections of any height.
+  private updateActive(): void {
+    const trigger = window.scrollY + window.innerHeight * 0.4;
+    let current = this.sectionIds[0];
+
+    for (const id of this.sectionIds) {
       const el = document.getElementById(id);
-      if (el) this.io!.observe(el);
-    });
+      if (el && el.getBoundingClientRect().top + window.scrollY <= trigger) {
+        current = id;
+      }
+    }
+
+    if (this.active !== current) {
+      this.active = current;
+      this.cdr.markForCheck();
+    }
   }
 
   private debounce<T extends (...a: any[]) => void>(fn: T, ms: number): T {
