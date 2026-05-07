@@ -1,0 +1,17 @@
+<nav class="navbar" aria-label="Primary" role="navigation">
+  <a class="brand" (click)="navigate('home')" aria-label="Go to home">CYBER<span>DEV</span></a>
+  <button class="hamburger" aria-controls="menu" [attr.aria-expanded]="open" aria-label="Menu" (click)="toggle()">
+    <span></span><span></span><span></span>
+  </button>
+  <ul id="menu" [class.open]="open">
+    <li *ngIf="!isOnProjectDetails"><a [class.active]="active==='home'" (click)="navigate('home')">Home</a></li>
+    <li *ngIf="!isOnProjectDetails"><a [class.active]="active==='skills'" (click)="navigate('skills')">Skills</a></li>
+    <li *ngIf="!isOnProjectDetails"><a [class.active]="active==='projects'" (click)="navigate('projects')">Projects</a></li>
+    <li *ngIf="!isOnProjectDetails"><a [class.active]="active==='contact'" (click)="navigate('contact')">Contact</a></li>
+    <li *ngIf="isOnProjectDetails">
+      <a class="btn-return" [routerLink]="['/']" fragment="projects">
+        <span class="icon">←</span> Return to Main Page
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,51 @@
+<section id="skills" class="skills-section">
+  <div class="container">
+    <h2>SKILLMATRIX</h2>
+    <p class="section-subtitle">A comprehensive overview of my technical abilities and proficiency levels.</p>
+    
+    <div class="skills-container">
+      <div class="skill-categories">
+        <h3>Skill Categories</h3>
+        <div class="category-tabs">
+          <button 
+            *ngFor="let category of categories"
+            class="category-btn"
+            [class.active]="(activeCategory$ | async) === category"
+            (click)="setActiveCategory(category)">
+            {{ category }}
+          </button>
+        </div>
+      </div>
+      
+      <div class="proficiency-levels">
+        <h3>Proficiency Levels</h3>
+        <div class="proficiency-legend">
+          <div class="legend-item"><span class="legend-dot beginner"></span>1-2 segments = Beginner/Basic</div>
+          <div class="legend-item"><span class="legend-dot intermediate"></span>3-4 segments = Intermediate/Advanced</div>
+          <div class="legend-item"><span class="legend-dot expert"></span>5 segments = Proficient/Expert</div>
+        </div>
+        <div class="skill-items-container" [attr.data-animation-key]="animationKey">
+          <div 
+            *ngFor="let skill of (skills$ | async)"
+            class="skill-item">
+            <div class="skill-accent"></div>
+            <div class="skill-content">
+              <div class="skill-header">
+                <span class="skill-name">{{ skill.name }}</span>
+                <span class="skill-level-label">{{ getProficiencyLabel(skill.proficiency) }}</span>
+              </div>
+              <div class="skill-segments">
+                <div 
+                  *ngFor="let segment of getSegmentArray()"
+                  class="skill-segment"
+                  [class.filled]="segment <= getSegmentCount(skill.proficiency)"
+                  [ngClass]="segment <= getSegmentCount(skill.proficiency) ? getSegmentColorClass(skill.proficiency) : ''">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

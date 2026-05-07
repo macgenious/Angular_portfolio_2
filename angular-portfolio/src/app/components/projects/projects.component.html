@@ -1,0 +1,62 @@
+<section id="projects" class="projects-section">
+  <div class="container">
+    <h2>PROJECTSHOWCASE</h2>
+    <p class="section-subtitle">A collection of my finest work, showcasing technical skills and creative solutions.</p>
+    
+    <div class="project-filters">
+      <button 
+        *ngFor="let category of categories"
+        [class.active]="(activeFilter$ | async) === category"
+        (click)="filterProjects(category)">
+        {{ category }}
+      </button>
+    </div>
+
+    <div class="project-carousel-container">
+      <div class="project-carousel-track" [class.paused]="isPaused" [class.filtered]="isFiltered">
+        <!-- First set of cards -->
+        <div 
+          *ngFor="let project of visibleCards"
+          class="project-card"
+          [class.hovered]="hoveredCardId === project.id"
+          [class.dimmed]="hoveredCardId && hoveredCardId !== project.id"
+          [attr.data-category]="project.category"
+          (mouseenter)="pauseAnimation(project.id)"
+          (mouseleave)="resumeAnimation()"
+          (click)="onProjectClick(project)">
+          <div class="project-card-image" [style.backgroundImage]="'url(' + project.imageUrl + ')'">
+            <img [src]="project.imageUrl" alt="" loading="lazy" decoding="async" />
+            <div class="overlay">{{ project.category }}</div>
+          </div>
+          <div class="project-card-title">
+            <h3>{{ project.title }}</h3>
+          </div>
+        </div>
+        <!-- Duplicate set for seamless loop (only show when not filtered) -->
+        <ng-container *ngIf="!isFiltered">
+          <div 
+            *ngFor="let project of visibleCards"
+            class="project-card"
+            [class.hovered]="hoveredCardId === project.id"
+            [class.dimmed]="hoveredCardId && hoveredCardId !== project.id"
+            [attr.data-category]="project.category"
+            (mouseenter)="pauseAnimation(project.id)"
+            (mouseleave)="resumeAnimation()"
+            (click)="onProjectClick(project)">
+            <div class="project-card-image" [style.backgroundImage]="'url(' + project.imageUrl + ')'">
+              <img [src]="project.imageUrl" alt="" loading="lazy" decoding="async" />
+              <div class="overlay">{{ project.category }}</div>
+            </div>
+            <div class="project-card-title">
+              <h3>{{ project.title }}</h3>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="no-projects-message" *ngIf="visibleCards.length === 0">
+      No projects found for this category.
+    </div>
+    </div>
+</section>
