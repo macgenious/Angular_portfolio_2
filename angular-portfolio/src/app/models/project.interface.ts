@@ -1,7 +1,7 @@
 export interface Project {
   id: string;
   title: string;
-  category: 'Python' | 'Java' | 'JavaScript' | 'Hardware' | 'AI';
+  category: 'Python' | 'Java' | 'JavaScript' | 'Hardware' | 'AI' | 'Spring';
   imageUrl: string;
   description?: string;
   projectPath?: string;
