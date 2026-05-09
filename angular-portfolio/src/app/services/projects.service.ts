@@ -58,7 +58,7 @@ export class ProjectsService {
       category: 'Spring',
       imageUrl: 'assets/imgs/projects/spring.png',
       description: 'A web application built with Spring Boot that provides a platform for users to find and enroll in cooking courses. Features include course browsing, user authentication, and course management.',
-      projectPath: 'cooking-course-for-everyone',
+      projectPath: 'cooking-course',
       githubUrl: 'https://github.com/macgenious/cooking-course-for-everyone'
     }
   ];
