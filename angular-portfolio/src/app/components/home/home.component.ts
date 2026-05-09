@@ -19,6 +19,6 @@ export class HomeComponent implements OnInit {
   }
 
   openCV(): void {
-    window.open('assets/cv/resume.pdf', '_blank');
+    window.open('assets/cv/curriculum.pdf', '_blank');
   }
 }
