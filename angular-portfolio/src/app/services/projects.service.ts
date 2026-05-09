@@ -51,6 +51,15 @@ export class ProjectsService {
       description: 'An intelligent chatbot powered by AI that provides conversational responses and assistance. Utilizes natural language processing APIs for context-aware dialogue and maintains conversation history for personalized interactions.',
       projectPath: 'deepseek_api',
       githubUrl: 'https://github.com/macgenious/ai-chatbot-assistant'
+    },
+    {
+      id: '6',
+      title: 'Cooking course for everyone',
+      category: 'Spring',
+      imageUrl: 'assets/imgs/projects/spring.png',
+      description: 'A web application built with Spring Boot that provides a platform for users to find and enroll in cooking courses. Features include course browsing, user authentication, and course management.',
+      projectPath: 'cooking-course-for-everyone',
+      githubUrl: 'https://github.com/macgenious/cooking-course-for-everyone'
     }
   ];
 
