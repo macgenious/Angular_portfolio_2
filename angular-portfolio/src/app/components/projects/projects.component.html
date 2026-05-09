@@ -3,14 +3,6 @@
     <h2>PROJECTSHOWCASE</h2>
     <p class="section-subtitle">A collection of my finest work, showcasing technical skills and creative solutions.</p>
     
-    <div class="project-filters">
-      <button 
-        *ngFor="let category of categories"
-        [class.active]="(activeFilter$ | async) === category"
-        (click)="filterProjects(category)">
-        {{ category }}
-      </button>
-    </div>
 
     <div class="project-carousel-container">
       <div class="project-carousel-track" [class.paused]="isPaused" [class.filtered]="isFiltered">
